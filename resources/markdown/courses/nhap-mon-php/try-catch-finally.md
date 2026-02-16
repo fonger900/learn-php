@@ -1,67 +1,81 @@
-# Xử lý lỗi với Exception
+# Xử lý lỗi và Ngoại lệ (Exception Handling)
 
-## Cơ bản
+Trong quá trình chạy chương trình, các lỗi ngoài ý muốn có thể xảy ra (như mất kết nối database, file không tồn tại). Thay vì để chương trình "chết" đột ngột, chúng ta sử dụng `try...catch` để xử lý chúng một cách chuyên nghiệp.
+
+---
+
+## 1. Cấu trúc `try...catch`
+
+- **try**: Chứa khối mã có khả năng gây ra lỗi.
+- **catch**: Thực thi nếu có lỗi (Exception) xảy ra trong khối try.
+- **finally**: (Tùy chọn) Luôn luôn thực thi dù có lỗi hay không. Thường dùng để đóng kết nối hoặc giải phóng tài nguyên.
 
 ```php
 <?php
 try {
-    $result = 10 / 0;
+    $result = 10 / 0; // Gây ra lỗi
 } catch (DivisionByZeroError $e) {
-    echo 'Lỗi: ' . $e->getMessage();
-} finally {
-    echo 'Luôn chạy dù có lỗi hay không';
-}
-```
-
-## Bắt nhiều loại exception
-
-```php
-<?php
-try {
-    $data = json_decode(file_get_contents('config.json'), true, 512, JSON_THROW_ON_ERROR);
-    $connection = new PDO($data['dsn']);
-} catch (JsonException $e) {
-    echo "JSON không hợp lệ: {$e->getMessage()}";
-} catch (PDOException $e) {
-    echo "Lỗi database: {$e->getMessage()}";
+    echo "Lỗi: Không thể chia cho số 0.";
 } catch (Exception $e) {
-    echo "Lỗi chung: {$e->getMessage()}";
+    echo "Có lỗi xảy ra: " . $e->getMessage();
+} finally {
+    echo "Kết thúc quá trình xử lý.";
 }
 ```
 
-## Throw exception
+---
+
+## 2. Tự ném lỗi với `throw`
+
+Bạn có thể chủ động dừng chương trình và báo lỗi nếu một điều kiện không được thỏa mãn.
 
 ```php
 <?php
-function withdraw(float $balance, float $amount): float
-{
-    if ($amount <= 0) {
-        throw new InvalidArgumentException('Số tiền phải > 0');
+function checkAge($age) {
+    if ($age < 18) {
+        throw new Exception("Bạn chưa đủ tuổi truy cập.");
     }
-    if ($amount > $balance) {
-        throw new RuntimeException('Số dư không đủ');
-    }
-    return $balance - $amount;
+    return true;
 }
 
 try {
-    echo withdraw(1000000, 2000000);
-} catch (RuntimeException $e) {
-    echo $e->getMessage(); // Số dư không đủ
+    checkAge(15);
+} catch (Exception $e) {
+    echo "Thông báo: " . $e->getMessage();
 }
 ```
 
-## Hierarchy của Exception
+---
 
+## 3. Các loại Exception phổ biến trong PHP
+
+| Ngoại lệ | Khi nào xảy ra? |
+| :--- | :--- |
+| **PDOException** | Lỗi khi làm việc với Database. |
+| **TypeError** | Sai kiểu dữ liệu truyền vào hàm (khi dùng strict_types). |
+| **DivisionByZeroError** | Chia cho số 0. |
+| **ParseError** | Lỗi cú pháp khi dùng hàm `eval()`. |
+
+---
+
+## 4. Custom Exception (Ngoại lệ tự định nghĩa)
+
+Bạn có thể tạo ra các loại lỗi riêng cho ứng dụng của mình bằng cách kế thừa lớp `Exception`.
+
+```php
+<?php
+class InvalidEmailException extends Exception {}
+
+function subscribe($email) {
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        throw new InvalidEmailException("Email không đúng định dạng.");
+    }
+}
 ```
-Throwable
-├── Error (lỗi nội bộ PHP)
-│   ├── TypeError
-│   ├── ValueError
-│   └── DivisionByZeroError
-└── Exception (lỗi ứng dụng)
-    ├── RuntimeException
-    ├── InvalidArgumentException
-    ├── LogicException
-    └── PDOException
-```
+
+---
+
+## 🧭 Lời khuyên thực tế
+1. **Đừng lạm dụng catch Exception:** Hãy cố gắng catch các loại lỗi cụ thể (như `PDOException`) thay vì catch lớp `Exception` chung chung để xử lý chính xác hơn.
+2. **Ghi log lỗi:** Trong thực tế, thay vì chỉ `echo` lỗi ra màn hình, bạn nên ghi lỗi vào file log để lập trình viên có thể kiểm tra sau này.
+3. **Đừng bao giờ hiện mã lỗi cho người dùng cuối:** Chỉ hiện thông báo thân thiện như "Đã có lỗi xảy ra, vui lòng thử lại sau" để đảm bảo bảo mật.
