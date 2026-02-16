@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
-import { BookOpen, Code2, GraduationCap, Rocket, Sparkles, Trophy, Zap, Star, CheckCircle } from 'lucide-vue-next';
+import { BookOpen, Code2, GraduationCap, Rocket, Sparkles, Trophy, Zap, Star, CheckCircle, ArrowRight } from 'lucide-vue-next';
 import AnimatedButton from '@/components/ui/AnimatedButton.vue';
 import GradientCard from '@/components/ui/GradientCard.vue';
 import { dashboard, login, register } from '@/routes';
@@ -158,8 +158,8 @@ const faqs = [
                                 <Rocket class="h-5 w-5" />
                                 Start Learning Free
                             </AnimatedButton>
-                            <AnimatedButton v-else :as="Link" :href="dashboard()" variant="primary" size="lg" class="shadow-lg shadow-primary/20">
-                                Go to Dashboard
+                            <AnimatedButton v-else :as="Link" :href="route('lessons.show', ['nhap-mon-php', 'php-la-gi'])" variant="primary" size="lg" class="shadow-lg shadow-primary/20">
+                                Continue Learning
                             </AnimatedButton>
                             <AnimatedButton :as="Link" :href="route('courses.index')" variant="outline" size="lg">
                                 <BookOpen class="h-5 w-5" />
@@ -373,7 +373,7 @@ const faqs = [
                                 <Rocket class="h-5 w-5" />
                                 Get Started Now
                             </AnimatedButton>
-                            <AnimatedButton v-else :as="Link" :href="dashboard()" variant="outline" size="lg"
+                            <AnimatedButton v-else :as="Link" :href="route('lessons.show', ['nhap-mon-php', 'php-la-gi'])" variant="outline" size="lg"
                                 class="bg-white text-primary hover:bg-white/90 border-white min-w-[200px]">
                                 Continue Learning
                             </AnimatedButton>

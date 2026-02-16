@@ -4,6 +4,7 @@ import { cn } from '@/lib/utils';
 import { Loader2 } from 'lucide-vue-next';
 
 type Props = {
+  as?: any;
   variant?: 'primary' | 'secondary' | 'ghost' | 'outline';
   size?: 'sm' | 'md' | 'lg';
   loading?: boolean;
@@ -12,6 +13,7 @@ type Props = {
 };
 
 const props = withDefaults(defineProps<Props>(), {
+  as: 'button',
   variant: 'primary',
   size: 'md',
   loading: false,
@@ -39,8 +41,8 @@ const buttonClasses = computed(() => {
 </script>
 
 <template>
-  <button :class="buttonClasses" :disabled="disabled || loading">
+  <component :is="as" :class="buttonClasses" :disabled="disabled || loading">
     <Loader2 v-if="loading" class="h-4 w-4 animate-spin" />
     <slot />
-  </button>
+  </component>
 </template>
