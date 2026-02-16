@@ -110,6 +110,14 @@ class CourseSeeder extends Seeder
             ],
             'Tối ưu hóa & Scale' => [
                 ['Tối ưu Database & Caching', 'toi-uu-database-va-caching'],
+                ['Queues & Jobs', 'queues-va-jobs'],
+            ],
+            'Real-time & API' => [
+                ['Real-time với Reverb', 'broadcasting-va-reverb'],
+                ['API Resources & Sanctum', 'api-resources-va-sanctum'],
+            ],
+            'Advanced Eloquent' => [
+                ['Observers & Events', 'observers-va-events'],
             ],
         ];
 
