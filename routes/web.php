@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Course;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Laravel\Fortify\Features;
@@ -7,6 +8,7 @@ use Laravel\Fortify\Features;
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canRegister' => Features::enabled(Features::registration()),
+        'courses' => Course::latest()->take(3)->get(),
     ]);
 })->name('home');
 
