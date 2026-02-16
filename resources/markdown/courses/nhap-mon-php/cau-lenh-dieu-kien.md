@@ -1,66 +1,117 @@
-# Câu lệnh điều kiện
+# Cấu trúc điều kiện trong PHP
 
-## if / elseif / else
+Câu lệnh điều kiện cho phép chương trình đưa ra các quyết định dựa trên các tình huống khác nhau. Đây là nền tảng của mọi logic xử lý trong ứng dụng web.
+
+---
+
+## 1. Câu lệnh `if...else` cơ bản
 
 ```php
 <?php
-$diem = 8.5;
+$age = 20;
 
-if ($diem >= 9) {
-    echo 'Xuất sắc';
-} elseif ($diem >= 7) {
-    echo 'Khá';
-} elseif ($diem >= 5) {
-    echo 'Trung bình';
+if ($age >= 18) {
+    echo "Bạn đã đủ tuổi bầu cử.";
 } else {
-    echo 'Yếu';
+    echo "Bạn chưa đủ tuổi bầu cử.";
 }
 ```
 
-## Toán tử ba ngôi (Ternary)
-
+### `if...elseif...else` (Nhiều điều kiện)
 ```php
 <?php
-$tuoi = 20;
-$loai = ($tuoi >= 18) ? 'Người lớn' : 'Trẻ em';
-echo $loai; // Người lớn
+$score = 85;
+
+if ($score >= 90) {
+    echo "Xếp loại: Xuất sắc";
+} elseif ($score >= 80) {
+    echo "Xếp loại: Giỏi";
+} elseif ($score >= 65) {
+    echo "Xếp loại: Khá";
+} else {
+    echo "Xếp loại: Trung bình/Yếu";
+}
 ```
 
-## switch
+---
+
+## 2. Câu lệnh `switch`
+Dùng khi bạn muốn so sánh một biến với danh sách các giá trị khác nhau.
 
 ```php
 <?php
-$ngay = 'Thứ Hai';
+$day = "Thứ Hai";
 
-switch ($ngay) {
-    case 'Thứ Hai':
-    case 'Thứ Ba':
-        echo 'Đầu tuần';
+switch ($day) {
+    case "Thứ Hai":
+        echo "Bắt đầu tuần mới!";
         break;
-    case 'Thứ Bảy':
-    case 'Chủ Nhật':
-        echo 'Cuối tuần';
+    case "Thứ Sáu":
+        echo "Sắp đến cuối tuần rồi.";
+        break;
+    case "Chủ Nhật":
+        echo "Ngày nghỉ ngơi.";
         break;
     default:
-        echo 'Giữa tuần';
+        echo "Ngày làm việc bình thường.";
 }
 ```
+**Lưu ý:** Luôn sử dụng `break` để ngăn mã lệnh "rơi" xuống các case tiếp theo (fall-through).
 
-## match (PHP 8+)
+---
+
+## 3. Biểu thức `match` (PHP 8+)
+`match` là phiên bản hiện đại, an toàn và gọn gàng hơn của `switch`.
+
+### Tại sao nên dùng `match`?
+- **Trả về giá trị:** Bạn có thể gán kết quả của `match` trực tiếp vào một biến.
+- **So sánh nghiêm ngặt (Strict Comparison):** Dùng `===` thay vì `==`.
+- **Không cần `break`:** Tự động dừng sau khi tìm thấy case phù hợp.
 
 ```php
 <?php
-$statusCode = 404;
+$status_code = 404;
 
-$message = match ($statusCode) {
-    200 => 'OK',
-    301 => 'Chuyển hướng',
-    404 => 'Không tìm thấy',
-    500 => 'Lỗi server',
-    default => 'Không xác định',
+$message = match ($status_code) {
+    200, 201 => "Thành công",
+    400 => "Lỗi yêu cầu",
+    404 => "Không tìm thấy trang",
+    500 => "Lỗi máy chủ",
+    default => "Lỗi không xác định",
 };
 
-echo $message; // Không tìm thấy
+echo $message; // Không tìm thấy trang
 ```
 
-> 💡 `match` dùng so sánh `===` (strict), khác với `switch` dùng `==`.
+---
+
+## 4. Toán tử điều kiện rút gọn
+
+### Toán tử ba ngôi (Ternary Operator)
+```php
+<?php
+$is_logged_in = true;
+echo $is_logged_in ? "Chào mừng bạn quay lại!" : "Vui lòng đăng nhập.";
+```
+
+### Toán tử Null Coalescing (`??`)
+Dùng để kiểm tra xem một biến có tồn tại và không NULL hay không. Rất hữu ích khi làm việc với dữ liệu từ Form hoặc URL.
+
+```php
+<?php
+$username = $_GET['user'] ?? 'Khách'; 
+// Nếu $_GET['user'] không tồn tại, lấy giá trị mặc định là 'Khách'
+```
+
+---
+
+## ⚠️ Lưu ý về so sánh
+Luôn ưu tiên sử dụng các toán tử so sánh nghiêm ngặt để tránh các lỗi logic khó phát hiện:
+- `===` (Bằng cả giá trị và kiểu dữ liệu)
+- `!==` (Khác cả giá trị hoặc kiểu dữ liệu)
+
+```php
+<?php
+var_dump(0 == "0");   // true (Nguy hiểm!)
+var_dump(0 === "0");  // false (An toàn hơn)
+```

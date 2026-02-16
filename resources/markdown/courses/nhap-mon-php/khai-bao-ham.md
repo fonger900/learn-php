@@ -1,85 +1,123 @@
-# Hàm (Functions)
+# Hàm trong PHP (Functions)
 
-## Khai báo hàm cơ bản
+Hàm là một khối mã lệnh có thể tái sử dụng nhiều lần trong chương trình. Sử dụng hàm giúp mã nguồn gọn gàng, dễ bảo trì và tránh trùng lặp code.
+
+---
+
+## 1. Khai báo hàm cơ bản
 
 ```php
 <?php
-function greet(string $name): string
-{
-    return "Xin chào, $name!";
+function sayHello() {
+    echo "Xin chào các bạn!";
 }
 
-echo greet('An'); // Xin chào, An!
+sayHello(); // Gọi hàm
 ```
 
-## Tham số mặc định
+---
+
+## 2. Tham số và Giá trị trả về (Type Declarations)
+
+Trong PHP hiện đại, bạn nên khai báo kiểu dữ liệu cho tham số và giá trị trả về để tăng tính bảo mật và minh bạch.
 
 ```php
 <?php
-function createUser(string $name, string $role = 'member'): string
-{
-    return "$name ($role)";
+function add(int $a, int $b): int {
+    return $a + $b;
 }
 
-echo createUser('An');            // An (member)
-echo createUser('Bình', 'admin'); // Bình (admin)
+$result = add(5, 10); // 15
 ```
 
-## Named Arguments (PHP 8+)
+### Kiểu dữ liệu nullable (`?`)
+Nếu một tham số hoặc kết quả có thể là NULL, hãy thêm dấu `?` trước kiểu dữ liệu.
 
 ```php
 <?php
-function buildQuery(
-    string $table,
-    int $limit = 10,
-    int $offset = 0,
-    string $orderBy = 'id',
-): string {
-    return "SELECT * FROM $table ORDER BY $orderBy LIMIT $limit OFFSET $offset";
+function findUser(int $id): ?string {
+    // Giả sử không tìm thấy user
+    return null; 
+}
+```
+
+---
+
+## 3. Tham số mặc định và Tham số biến (Variadic)
+
+### Tham số mặc định
+```php
+<?php
+function greet($name = "Khách") {
+    echo "Chào mừng $name!";
 }
 
-// Gọi với named arguments — rõ ràng hơn
-echo buildQuery(
-    table: 'users',
-    orderBy: 'name',
-    limit: 20,
-);
+greet();        // Chào mừng Khách!
+greet("Hoàng"); // Chào mừng Hoàng!
 ```
 
-## Variadic parameters
+### Variadic Functions (Sử dụng `...`)
+Cho phép truyền vào số lượng tham số không giới hạn.
 
 ```php
 <?php
-function sum(int ...$numbers): int
-{
+function sumAll(...$numbers): int {
     return array_sum($numbers);
 }
 
-echo sum(1, 2, 3, 4, 5); // 15
-
-$nums = [10, 20, 30];
-echo sum(...$nums);       // 60 (spread)
+echo sumAll(1, 2, 3, 4); // 10
 ```
 
-## Kiểu trả về
+---
+
+## 4. Named Arguments (PHP 8+)
+Cho phép bạn truyền tham số vào hàm dựa trên tên của chúng thay vì thứ tự.
 
 ```php
 <?php
-function divide(float $a, float $b): float|false
-{
-    if ($b === 0.0) {
-        return false;
-    }
-    return $a / $b;
+function setCookie($name, $value, $expire, $secure = true) {
+    // Logic set cookie
 }
 
-function processData(): void
-{
-    // Không trả về giá trị
-}
-
-function findUser(): ?User
-{
-    // Trả về User hoặc null
-}
+// Chỉ cần truyền tham số name, value và secure mà không cần quan tâm expire
+setCookie(
+    name: "session_id",
+    value: "abc123",
+    secure: false,
+    expire: 3600
+);
 ```
+
+---
+
+## 5. Hàm ẩn danh (Anonymous) và Arrow Functions
+
+### Anonymous Functions (Closure)
+Thường dùng để làm callback.
+
+```php
+<?php
+$greet = function($name) {
+    return "Chào $name";
+};
+
+echo $greet("An");
+```
+
+### Arrow Functions (PHP 7.4+)
+Cú pháp ngắn gọn hơn cho các hàm đơn giản. Chúng tự động truy cập được các biến ở scope bên ngoài.
+
+```php
+<?php
+$multiplier = 2;
+$doubler = fn($n) => $n * $multiplier;
+
+echo $doubler(5); // 10
+```
+
+---
+
+## 🧭 Lời khuyên thực tế
+1. **Một hàm chỉ làm một việc:** Hãy giữ cho hàm của bạn nhỏ gọn và tập trung vào một nhiệm vụ duy nhất (Single Responsibility Principle).
+2. **Đặt tên hàm rõ ràng:** Tên hàm nên là một động từ (ví dụ: `saveUser`, `calculateTotal`).
+3. **Tránh sử dụng biến toàn cục (`global`):** Hãy truyền dữ liệu vào hàm thông qua tham số để code dễ kiểm soát hơn.
