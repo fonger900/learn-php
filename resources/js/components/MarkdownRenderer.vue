@@ -42,6 +42,9 @@ onMounted(async () => {
 </template>
 
 <style>
+.markdown-content {
+    font-family: var(--font-sans);
+}
 .markdown-content pre {
     background-color: #24292e !important; /* GitHub Dark background */
     padding: 1.25rem;

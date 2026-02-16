@@ -90,10 +90,7 @@ const faqs = [
 
 <template>
 
-    <Head title="Welcome">
-        <link rel="preconnect" href="https://rsms.me/" />
-        <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
-    </Head>
+    <Head title="Welcome" />
 
     <div class="min-h-screen bg-background font-sans text-foreground selection:bg-primary/20 selection:text-primary">
         <!-- Navigation -->
