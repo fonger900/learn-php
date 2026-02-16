@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { Head, Link, useForm } from '@inertiajs/vue3';
-import { CheckCircle2, ChevronRight, PlayCircle } from 'lucide-vue-next';
-import { computed } from 'vue';
+import { CheckCircle2, ChevronRight, PlayCircle, List } from 'lucide-vue-next';
+import { computed, ref } from 'vue';
+import CourseSidebar from '@/components/CourseSidebar.vue';
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
 import AnimatedButton from '@/components/ui/AnimatedButton.vue';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
 
@@ -33,6 +35,7 @@ const props = defineProps<{
 }>();
 
 const form = useForm({});
+const isMobileSidebarOpen = ref(false);
 
 const completeLesson = () => {
     form.post(route('lessons.complete', props.lesson.id), {
@@ -66,12 +69,6 @@ const nextLesson = computed(() => {
     }
     return null;
 });
-
-// Calculate module progress
-const getModuleProgress = (module: typeof props.modules[0]) => {
-    const completed = module.lessons.filter(l => l.pivot?.completed_at).length;
-    return Math.round((completed / module.lessons.length) * 100);
-};
 </script>
 
 <template>
@@ -79,95 +76,98 @@ const getModuleProgress = (module: typeof props.modules[0]) => {
     <Head :title="lesson.title" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
-        <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 p-6 h-full">
-            <!-- Sidebar Navigation -->
-            <div class="lg:col-span-1 space-y-4 hidden lg:block overflow-y-auto max-h-[calc(100vh-8rem)]">
-                <div class="sticky top-0 bg-background/95 backdrop-blur-sm pb-4 z-10">
-                    <h3 class="font-bold text-lg">Course Content</h3>
-                </div>
-
-                <div v-for="module in modules" :key="module.id" class="space-y-2">
-                    <div class="flex items-center justify-between">
-                        <h4 class="font-semibold text-sm uppercase tracking-wide text-muted-foreground">
-                            {{ module.title }}
-                        </h4>
-                        <span class="text-xs text-muted-foreground">
-                            {{ getModuleProgress(module) }}%
-                        </span>
-                    </div>
-
-                    <!-- Progress bar for module -->
-                    <div class="h-1 bg-muted rounded-full overflow-hidden mb-3">
-                        <div class="h-full gradient-primary rounded-full transition-all duration-500"
-                            :style="{ width: `${getModuleProgress(module)}%` }"></div>
-                    </div>
-
-                    <ul class="space-y-1">
-                        <li v-for="l in module.lessons" :key="l.id">
-                            <Link :href="route('lessons.show', [course.slug, l.slug])"
-                                class="group flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-all duration-200"
-                                :class="{
-                                    'bg-primary text-primary-foreground shadow-md': l.id === lesson.id,
-                                    'hover:bg-accent': l.id !== lesson.id
-                                }">
-                                <CheckCircle2 v-if="l.pivot?.completed_at"
-                                    class="h-4 w-4 flex-shrink-0 text-green-500" />
-                                <div v-else class="h-4 w-4 flex-shrink-0 rounded-full border-2"
-                                    :class="l.id === lesson.id ? 'border-primary-foreground' : 'border-muted-foreground/30'" />
-                                <span class="flex-1 truncate">{{ l.title }}</span>
-                                <ChevronRight v-if="l.id === lesson.id" class="h-4 w-4 flex-shrink-0" />
-                            </Link>
-                        </li>
-                    </ul>
-                </div>
+        <div class="flex flex-col lg:flex-row h-[calc(100vh-4rem)] overflow-hidden">
+            <!-- Desktop Sidebar Navigation -->
+            <div class="hidden lg:block w-80 shrink-0 h-full border-r border-border overflow-y-auto">
+                <CourseSidebar :course="course" :current-lesson-id="lesson.id" :modules="modules" />
             </div>
 
-            <!-- Main Content -->
-            <div class="lg:col-span-3 max-w-4xl mx-auto w-full">
-                <div class="space-y-6">
-                    <!-- Lesson Title -->
-                    <div>
-                        <h1 class="text-4xl font-bold mb-2">{{ lesson.title }}</h1>
-                        <div class="h-1 w-20 gradient-primary rounded-full"></div>
-                    </div>
+            <!-- Mobile Navigation Trigger (Floating) -->
+            <div class="lg:hidden fixed bottom-6 right-6 z-40">
+                <Sheet v-model:open="isMobileSidebarOpen">
+                    <SheetTrigger as-child>
+                        <button class="h-14 w-14 rounded-full gradient-primary text-white shadow-2xl flex items-center justify-center hover:scale-110 active:scale-95 transition-transform">
+                            <List class="h-6 w-6" />
+                        </button>
+                    </SheetTrigger>
+                    <SheetContent side="left" class="p-0 w-80">
+                        <CourseSidebar :course="course" :current-lesson-id="lesson.id" :modules="modules" @click="isMobileSidebarOpen = false" />
+                    </SheetContent>
+                </Sheet>
+            </div>
 
-                    <!-- Video Player -->
-                    <div v-if="lesson.video_url"
-                        class="relative aspect-video bg-black rounded-2xl overflow-hidden shadow-2xl">
-                        <div
-                            class="absolute inset-0 flex items-center justify-center text-white bg-gradient-to-br from-primary/20 to-secondary/20">
-                            <div class="text-center">
-                                <PlayCircle class="h-20 w-20 mx-auto mb-4 opacity-80" />
-                                <p class="text-lg">Video Player</p>
-                                <p class="text-sm opacity-70">{{ lesson.video_url }}</p>
+            <!-- Main Content Area -->
+            <div class="flex-1 overflow-y-auto bg-background/50 custom-scrollbar">
+                <div class="max-w-4xl mx-auto px-6 py-10">
+                    <div class="space-y-8">
+                        <!-- Lesson Header -->
+                        <div class="space-y-4">
+                            <div class="flex items-center gap-2 text-sm font-medium text-primary uppercase tracking-wider">
+                                <span>{{ course.title }}</span>
+                                <ChevronRight class="h-4 w-4 text-muted-foreground" />
+                                <span class="text-muted-foreground">Lesson</span>
+                            </div>
+                            <h1 class="text-4xl font-extrabold tracking-tight lg:text-5xl leading-tight">
+                                {{ lesson.title }}
+                            </h1>
+                            <div class="h-1.5 w-24 gradient-primary rounded-full"></div>
+                        </div>
+
+                        <!-- Video Player -->
+                        <div v-if="lesson.video_url"
+                            class="relative aspect-video bg-black rounded-3xl overflow-hidden shadow-2xl group border border-border/50">
+                            <div
+                                class="absolute inset-0 flex items-center justify-center text-white bg-gradient-to-br from-black/40 via-transparent to-black/40">
+                                <div class="text-center transform group-hover:scale-110 transition-transform duration-500">
+                                    <PlayCircle class="h-24 w-24 mx-auto mb-4 text-white/90 drop-shadow-2xl" />
+                                    <p class="text-xl font-bold tracking-wide">Start Video Lesson</p>
+                                    <p class="text-sm opacity-60 mt-2 font-mono">{{ lesson.video_url }}</p>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <!-- Lesson Content -->
-                    <div class="prose prose-lg dark:prose-invert max-w-none">
-                        <MarkdownRenderer :content="lesson.content" />
-                    </div>
+                        <!-- Lesson Content -->
+                        <div class="prose prose-lg dark:prose-invert max-w-none prose-headings:font-bold prose-a:text-primary hover:prose-a:underline bg-card/30 p-8 rounded-3xl border border-border/50">
+                            <MarkdownRenderer :content="lesson.content" />
+                        </div>
 
-                    <!-- Actions -->
-                    <div class="flex items-center justify-between border-t border-border pt-8 mt-12">
-                        <AnimatedButton @click="completeLesson" 
-                            :variant="lesson.pivot?.completed_at ? 'outline' : 'primary'" 
-                            size="lg" 
-                            :loading="form.processing"
-                            :disabled="form.processing || !!lesson.pivot?.completed_at">
-                            <CheckCircle2 class="h-5 w-5" :class="{ 'text-green-500': lesson.pivot?.completed_at }" />
-                            {{ form.processing ? 'Saving...' : (lesson.pivot?.completed_at ? 'Completed' : 'Mark as Complete') }}
-                        </AnimatedButton>
+                        <!-- Actions -->
+                        <div class="flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-border pt-10 mt-12 mb-20">
+                            <AnimatedButton @click="completeLesson" 
+                                :variant="lesson.pivot?.completed_at ? 'outline' : 'primary'" 
+                                size="lg" 
+                                :loading="form.processing"
+                                :disabled="form.processing || !!lesson.pivot?.completed_at"
+                                class="w-full sm:w-auto min-w-[200px] h-14 rounded-2xl text-lg shadow-lg shadow-primary/10">
+                                <CheckCircle2 class="h-6 w-6" :class="{ 'text-green-500': lesson.pivot?.completed_at }" />
+                                {{ form.processing ? 'Saving...' : (lesson.pivot?.completed_at ? 'Lesson Completed' : 'Mark as Complete') }}
+                            </AnimatedButton>
 
-                        <Link v-if="nextLesson" :href="route('lessons.show', [course.slug, nextLesson.slug])"
-                            class="group flex items-center gap-2 px-6 py-3 rounded-lg border-2 border-primary text-primary hover:bg-primary hover:text-white transition-all duration-300">
-                            <span class="font-medium">Next Lesson</span>
-                            <ChevronRight class="h-5 w-5 group-hover:translate-x-1 transition-transform" />
-                        </Link>
+                            <Link v-if="nextLesson" :href="route('lessons.show', [course.slug, nextLesson.slug])"
+                                class="group flex items-center justify-center gap-3 w-full sm:w-auto px-8 h-14 rounded-2xl border-2 border-primary/20 text-primary hover:bg-primary hover:text-white hover:border-primary transition-all duration-300 font-bold text-lg shadow-sm">
+                                <span>Next Lesson</span>
+                                <ChevronRight class="h-6 w-6 group-hover:translate-x-1 transition-transform" />
+                            </Link>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </AppLayout>
 </template>
+
+<style scoped>
+.custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: hsl(var(--border));
+    border-radius: 10px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--muted-foreground) / 0.3);
+}
+</style>
