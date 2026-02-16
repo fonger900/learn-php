@@ -49,14 +49,14 @@ class User extends Authenticatable
             'two_factor_confirmed_at' => 'datetime',
         ];
     }
-    public function courses()
+    public function courses(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Course::class, 'course_user')
             ->withPivot('enrolled_at')
             ->withTimestamps();
     }
 
-    public function lessons()
+    public function lessons(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Lesson::class, 'lesson_user')
             ->withPivot('completed_at')

@@ -2,35 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Course;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class CourseController extends Controller
 {
-    public function index()
+    public function index(): Response
     {
-        return \Inertia\Inertia::render('Courses/Index', [
-            'courses' => \App\Models\Course::query()
-                ->withCount('modules', 'lessons') // Assuming Course hasManyThrough lessons
-                ->get()
-                ->map(fn($course) => [
-                    'id' => $course->id,
-                    'title' => $course->title,
-                    'slug' => $course->slug,
-                    'description' => $course->description,
-                    'level' => $course->level,
-                    'modules_count' => $course->modules_count,
-                    // lessons_count would need a relationship on Course model or manual calculation
-                ]),
+        return Inertia::render('Courses/Index', [
+            'courses' => Course::withCount(['modules', 'lessons'])->get(),
         ]);
     }
 
-    public function show(\App\Models\Course $course)
+    public function show(Course $course): Response
     {
         $course->load(['modules.lessons' => function ($query) {
             $query->orderBy('order');
         }]);
 
-        return \Inertia\Inertia::render('Courses/Show', [
+        return Inertia::render('Courses/Show', [
             'course' => $course,
         ]);
     }

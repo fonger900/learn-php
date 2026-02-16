@@ -12,23 +12,19 @@ class Lesson extends Model
 
     use HasFactory;
 
-    public function module()
+    public function module(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Module::class);
     }
 
-    public function getContentAttribute($value)
+    public function getContentAttribute(?string $value): string
     {
         $path = resource_path("markdown/courses/{$this->module->course->slug}/{$this->slug}.md");
 
-        if (file_exists($path)) {
-            return file_get_contents($path);
-        }
-
-        return $value;
+        return file_exists($path) ? file_get_contents($path) : ($value ?? '');
     }
 
-    public function users()
+    public function users(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(User::class, 'lesson_user')
             ->withPivot('completed_at')

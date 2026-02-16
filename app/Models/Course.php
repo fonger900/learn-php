@@ -12,17 +12,17 @@ class Course extends Model
 
     use HasFactory;
 
-    public function modules()
+    public function modules(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Module::class)->orderBy('order');
     }
 
-    public function lessons()
+    public function lessons(): \Illuminate\Database\Eloquent\Relations\HasManyThrough
     {
         return $this->hasManyThrough(Lesson::class, Module::class);
     }
 
-    public function students()
+    public function students(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(User::class, 'course_user')
             ->withPivot('enrolled_at')

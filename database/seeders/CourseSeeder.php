@@ -89,11 +89,11 @@ class CourseSeeder extends Seeder
                 'order' => $moduleOrder++,
             ]);
 
-            foreach ($lessons as $index => $lessonData) {
+            foreach ($lessons as $index => [$title, $slug]) {
                 Lesson::create([
                     'module_id' => $module->id,
-                    'title' => $lessonData[0],
-                    'slug' => $lessonData[1],
+                    'title' => $title,
+                    'slug' => $slug,
                     'content' => '', // Loaded from markdown files via Lesson model accessor
                     'order' => $index + 1,
                 ]);
