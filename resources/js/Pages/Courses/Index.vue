@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
+import { BookOpen, Clock, Award } from 'lucide-vue-next';
+import GradientCard from '@/components/ui/GradientCard.vue';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
-import GradientCard from '@/components/ui/GradientCard.vue';
-import { BookOpen, Clock, Award } from 'lucide-vue-next';
 
 defineProps<{
     courses: Array<{

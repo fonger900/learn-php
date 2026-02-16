@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { ref, onMounted, watch } from 'vue';
 import MarkdownIt from 'markdown-it';
 import { createHighlighter } from 'shiki';
+import { ref, onMounted, watch } from 'vue';
 
 const props = defineProps<{
     content: string;

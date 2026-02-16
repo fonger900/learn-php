@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { Head, Link, useForm } from '@inertiajs/vue3';
-import AppLayout from '@/layouts/AppLayout.vue';
-import { type BreadcrumbItem } from '@/types';
+import { CheckCircle2, ChevronRight, PlayCircle } from 'lucide-vue-next';
 import { computed } from 'vue';
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
 import AnimatedButton from '@/components/ui/AnimatedButton.vue';
-import { CheckCircle2, ChevronRight, PlayCircle } from 'lucide-vue-next';
+import AppLayout from '@/layouts/AppLayout.vue';
+import { type BreadcrumbItem } from '@/types';
 
 const props = defineProps<{
     course: {

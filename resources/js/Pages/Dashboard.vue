@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { Head } from '@inertiajs/vue3';
-import AppLayout from '@/layouts/AppLayout.vue';
-import { type BreadcrumbItem } from '@/types';
-import { dashboard } from '@/routes';
-import StatCard from '@/components/ui/StatCard.vue';
-import ProgressRing from '@/components/ui/ProgressRing.vue';
-import GradientCard from '@/components/ui/GradientCard.vue';
 import { BookOpen, GraduationCap, Trophy, TrendingUp } from 'lucide-vue-next';
+import GradientCard from '@/components/ui/GradientCard.vue';
+import ProgressRing from '@/components/ui/ProgressRing.vue';
+import StatCard from '@/components/ui/StatCard.vue';
+import AppLayout from '@/layouts/AppLayout.vue';
+import { dashboard } from '@/routes';
+import { type BreadcrumbItem } from '@/types';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
