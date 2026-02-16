@@ -15,19 +15,31 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-// Mock data - in real app this would come from props
-const stats = {
-    coursesEnrolled: 5,
-    lessonsCompleted: 24,
-    totalHours: 12.5,
-    achievements: 8,
-};
+interface Stats {
+    coursesEnrolled: number;
+    lessonsCompleted: number;
+    totalHours: number;
+    achievements: number;
+}
 
-const recentActivity = [
-    { lesson: 'Introduction to Laravel', course: 'Laravel Fundamentals', completed: true, time: '2 hours ago' },
-    { lesson: 'Database Migrations', course: 'Laravel Fundamentals', completed: true, time: '5 hours ago' },
-    { lesson: 'Eloquent Relationships', course: 'Advanced Laravel', completed: false, time: 'In progress' },
-];
+interface Activity {
+    lesson: string;
+    course: string;
+    completed: boolean;
+    time: string;
+}
+
+interface CourseProgress {
+    title: string;
+    percent: number;
+}
+
+const props = defineProps<{
+    stats: Stats;
+    recentActivity: Activity[];
+    coursesProgress: CourseProgress[];
+    totalCompletion: number;
+}>();
 </script>
 
 <template>
@@ -51,13 +63,13 @@ const recentActivity = [
 
             <!-- Stats Grid -->
             <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                <StatCard title="Courses Enrolled" :value="stats.coursesEnrolled" :icon="BookOpen" trend="up"
+                <StatCard title="Courses Enrolled" :value="props.stats.coursesEnrolled" :icon="BookOpen" trend="up"
                     trend-value="+2 this month" gradient="primary" />
-                <StatCard title="Lessons Completed" :value="stats.lessonsCompleted" :icon="GraduationCap" trend="up"
+                <StatCard title="Lessons Completed" :value="props.stats.lessonsCompleted" :icon="GraduationCap" trend="up"
                     trend-value="+12 this week" gradient="secondary" />
-                <StatCard title="Learning Hours" :value="`${stats.totalHours}h`" :icon="TrendingUp" trend="up"
+                <StatCard title="Learning Hours" :value="`${props.stats.totalHours}h`" :icon="TrendingUp" trend="up"
                     trend-value="+3.5h this week" gradient="accent" />
-                <StatCard title="Achievements" :value="stats.achievements" :icon="Trophy" trend="neutral"
+                <StatCard title="Achievements" :value="props.stats.achievements" :icon="Trophy" trend="neutral"
                     trend-value="2 pending" gradient="primary" />
             </div>
 
@@ -67,7 +79,7 @@ const recentActivity = [
                 <GradientCard variant="border" class="lg:col-span-2">
                     <h2 class="text-xl font-bold mb-6">Recent Activity</h2>
                     <div class="space-y-4">
-                        <div v-for="(activity, index) in recentActivity" :key="index"
+                        <div v-for="(activity, index) in props.recentActivity" :key="index"
                             class="flex items-center gap-4 p-4 rounded-lg bg-muted/30 hover:bg-muted/50 transition-colors">
                             <div class="flex-shrink-0">
                                 <div :class="[
@@ -92,37 +104,21 @@ const recentActivity = [
                 <GradientCard variant="border">
                     <h2 class="text-xl font-bold mb-6">Overall Progress</h2>
                     <div class="flex flex-col items-center justify-center py-8">
-                        <ProgressRing :value="68" size="lg" color="primary" />
+                        <ProgressRing :value="props.totalCompletion" size="lg" color="primary" />
                         <p class="mt-6 text-center text-sm text-muted-foreground">
-                            You've completed 68% of your enrolled courses
+                            You've completed {{ props.totalCompletion }}% of your enrolled courses
                         </p>
                     </div>
                     <div class="mt-6 space-y-3">
-                        <div>
+                        <div v-for="(course, index) in props.coursesProgress" :key="index">
                             <div class="flex justify-between text-sm mb-1">
-                                <span>Laravel Fundamentals</span>
-                                <span class="text-muted-foreground">85%</span>
+                                <span>{{ course.title }}</span>
+                                <span class="text-muted-foreground">{{ course.percent }}%</span>
                             </div>
                             <div class="h-2 bg-muted rounded-full overflow-hidden">
-                                <div class="h-full gradient-primary rounded-full" style="width: 85%"></div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="flex justify-between text-sm mb-1">
-                                <span>Advanced Laravel</span>
-                                <span class="text-muted-foreground">45%</span>
-                            </div>
-                            <div class="h-2 bg-muted rounded-full overflow-hidden">
-                                <div class="h-full gradient-secondary rounded-full" style="width: 45%"></div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="flex justify-between text-sm mb-1">
-                                <span>Vue.js Mastery</span>
-                                <span class="text-muted-foreground">20%</span>
-                            </div>
-                            <div class="h-2 bg-muted rounded-full overflow-hidden">
-                                <div class="h-full gradient-full rounded-full" style="width: 20%"></div>
+                                <div class="h-full rounded-full"
+                                    :class="index % 3 === 0 ? 'gradient-primary' : (index % 3 === 1 ? 'gradient-secondary' : 'gradient-full')"
+                                    :style="{ width: `${course.percent}%` }"></div>
                             </div>
                         </div>
                     </div>
