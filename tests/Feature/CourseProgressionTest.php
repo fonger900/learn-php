@@ -58,7 +58,7 @@ test('user can complete lesson', function () {
     $module = Module::factory()->for($course)->create();
     $lesson = Lesson::factory()->for($module)->create();
 
-    $response = $this->actingAs($user)->post(route('lessons.complete', $lesson));
+    $response = $this->withoutMiddleware()->actingAs($user)->post(route('lessons.complete', $lesson));
 
     $response->assertRedirect();
     $this->assertDatabaseHas('lesson_user', [

@@ -18,6 +18,7 @@ const props = defineProps<{
         slug: string;
         content: string;
         video_url: string | null;
+        pivot?: { completed_at: string };
     };
     modules: Array<{
         id: number;
@@ -150,10 +151,13 @@ const getModuleProgress = (module: typeof props.modules[0]) => {
 
                     <!-- Actions -->
                     <div class="flex items-center justify-between border-t border-border pt-8 mt-12">
-                        <AnimatedButton @click="completeLesson" variant="primary" size="lg" :loading="form.processing"
-                            :disabled="form.processing">
-                            <CheckCircle2 class="h-5 w-5" />
-                            {{ form.processing ? 'Saving...' : 'Mark as Complete' }}
+                        <AnimatedButton @click="completeLesson" 
+                            :variant="lesson.pivot?.completed_at ? 'outline' : 'primary'" 
+                            size="lg" 
+                            :loading="form.processing"
+                            :disabled="form.processing || !!lesson.pivot?.completed_at">
+                            <CheckCircle2 class="h-5 w-5" :class="{ 'text-green-500': lesson.pivot?.completed_at }" />
+                            {{ form.processing ? 'Saving...' : (lesson.pivot?.completed_at ? 'Completed' : 'Mark as Complete') }}
                         </AnimatedButton>
 
                         <Link v-if="nextLesson" :href="route('lessons.show', [course.slug, nextLesson.slug])"
