@@ -17,6 +17,17 @@ class Lesson extends Model
         return $this->belongsTo(Module::class);
     }
 
+    public function getContentAttribute($value)
+    {
+        $path = resource_path("markdown/courses/{$this->module->course->slug}/{$this->slug}.md");
+
+        if (file_exists($path)) {
+            return file_get_contents($path);
+        }
+
+        return $value;
+    }
+
     public function users()
     {
         return $this->belongsToMany(User::class, 'lesson_user')
