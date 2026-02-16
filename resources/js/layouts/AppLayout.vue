@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import AppLayout from '@/layouts/app/AppSidebarLayout.vue';
+import AppHeader from '@/components/AppHeader.vue';
 import type { BreadcrumbItem } from '@/types';
 
 type Props = {
@@ -12,7 +12,10 @@ withDefaults(defineProps<Props>(), {
 </script>
 
 <template>
-    <AppLayout :breadcrumbs="breadcrumbs">
-        <slot />
-    </AppLayout>
+    <div class="flex min-h-screen w-full flex-col bg-background">
+        <AppHeader :breadcrumbs="breadcrumbs" />
+        <main class="mx-auto flex w-full max-w-7xl flex-1 flex-col">
+            <slot />
+        </main>
+    </div>
 </template>
