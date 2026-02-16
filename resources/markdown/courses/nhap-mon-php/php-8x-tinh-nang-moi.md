@@ -1,109 +1,98 @@
-# Tính năng mới trong PHP 8.x
+# PHP 8.x: Những tính năng đột phá
 
-## Named Arguments (8.0)
+PHP 8.0, 8.1 và 8.2 mang lại những thay đổi lớn nhất trong lịch sử ngôn ngữ này, biến PHP thành một ngôn ngữ cực kỳ hiện đại, nhanh và an toàn.
+
+---
+
+## 1. Union Types (Kết hợp kiểu dữ liệu)
+Thay vì chỉ nhận 1 kiểu, nay bạn có thể khai báo một biến nhận nhiều kiểu dữ liệu khác nhau.
 
 ```php
 <?php
-function createUser(string $name, string $email, string $role = 'user'): array
-{
-    return compact('name', 'email', 'role');
+function process(int|float $number) {
+    return $number * 2;
 }
-
-$user = createUser(name: 'An', email: 'an@test.com', role: 'admin');
 ```
 
-## Match Expression (8.0)
+---
+
+## 2. Nullsafe Operator (`?->`)
+Giúp bạn gọi các phương thức lồng nhau mà không cần kiểm tra `if ($obj !== null)` liên tục. Nếu một mắt xích bị null, toàn bộ chuỗi sẽ trả về null thay vì báo lỗi.
 
 ```php
 <?php
-$status = match ($code) {
-    200 => 'OK',
-    404 => 'Not Found',
-    500 => 'Server Error',
-    default => 'Unknown',
-};
-```
-
-## Nullsafe Operator (8.0)
-
-```php
-<?php
-// Trước PHP 8
+// PHP 7
 $country = null;
-if ($user !== null && $user->address !== null) {
-    $country = $user->address->country;
+if ($user !== null) {
+    $profile = $user->getProfile();
+    if ($profile !== null) {
+        $country = $profile->country;
+    }
 }
 
-// PHP 8+
-$country = $user?->address?->country;
+// PHP 8
+$country = $user?->getProfile()?->country;
 ```
 
-## Enums (8.1)
+---
+
+## 3. Constructor Property Promotion
+Giúp giảm 80% code thừa khi khai báo Class.
 
 ```php
 <?php
-enum Status: string
-{
-    case Active = 'active';
-    case Inactive = 'inactive';
-}
-
-$s = Status::Active;
-echo $s->value; // active
-```
-
-## Readonly Properties (8.1) & Classes (8.2)
-
-```php
-<?php
-// 8.1: readonly property
-class Point
-{
+// PHP 8
+class User {
     public function __construct(
-        public readonly float $x,
-        public readonly float $y,
-    ) {}
-}
-
-// 8.2: readonly class
-readonly class Coordinate
-{
-    public function __construct(
-        public float $latitude,
-        public float $longitude,
+        public string $name,
+        public string $email,
+        private int $age
     ) {}
 }
 ```
 
-## Fibers (8.1)
+---
+
+## 4. Enums (PHP 8.1)
+Thay vì dùng các hằng số string hay int dễ sai sót, Enums giúp bạn định nghĩa tập hợp các giá trị cố định một cách an toàn.
 
 ```php
 <?php
-$fiber = new Fiber(function (): void {
-    $value = Fiber::suspend('Xin chào');
-    echo "Nhận: $value";
-});
+enum PostStatus: string {
+    case Draft = 'draft';
+    case Published = 'published';
+    case Archived = 'archived';
+}
 
-$result = $fiber->start();    // "Xin chào"
-$fiber->resume('Thế giới');   // "Nhận: Thế giới"
+function updateStatus(PostStatus $status) {
+    echo "Trạng thái mới: " . $status->value;
+}
 ```
 
-## Intersection & DNF Types (8.1, 8.2)
+---
+
+## 5. Readonly Properties (PHP 8.2)
+Cho phép bạn khai báo thuộc tính chỉ được ghi 1 lần duy nhất (trong constructor) và không thể thay đổi sau đó.
 
 ```php
 <?php
-// Intersection: phải là CẢ hai kiểu
-function process(Iterator&Countable $collection): void { }
+class Configuration {
+    public readonly string $apiKey;
 
-// DNF (8.2): (A&B)|C
-function handle((Renderable&Stringable)|string $input): void { }
+    public function __construct(string $key) {
+        $this->apiKey = $key;
+    }
+}
 ```
 
-## Bước tiếp theo 🚀
+---
 
-Chúc mừng bạn đã hoàn thành khóa học PHP cơ bản! Hãy tiếp tục với:
+## 🚀 Tại sao bạn nên dùng PHP 8?
+1. **Tốc độ:** JIT (Just-In-Time) compiler giúp các tác vụ tính toán nặng nhanh hơn đáng kể.
+2. **An toàn:** Bắt lỗi ngay từ lúc viết code nhờ hệ thống kiểu dữ liệu chặt chẽ.
+3. **Gọn gàng:** Cú pháp mới giúp bạn viết ít code hơn nhưng làm được nhiều việc hơn.
 
-1. **Laravel** — Framework PHP phổ biến nhất
-2. **Testing** — PHPUnit, Pest
-3. **API Development** — RESTful API với Laravel
-4. **DevOps** — Docker, CI/CD, deployment
+---
+
+## 🧭 Lời khuyên
+Nếu bạn đang bắt đầu một dự án mới, hãy luôn chọn phiên bản PHP mới nhất có thể (hiện tại là PHP 8.2 hoặc 8.3) để tận dụng tối đa các cải tiến này.
