@@ -11,6 +11,12 @@ class CourseSeeder extends Seeder
 {
     public function run(): void
     {
+        $this->seedPhpCourse();
+        $this->seedLaravelProCourse();
+    }
+
+    private function seedPhpCourse(): void
+    {
         $course = Course::create([
             'title' => 'Nhập môn PHP',
             'slug' => 'nhap-mon-php',
@@ -81,6 +87,37 @@ class CourseSeeder extends Seeder
             ],
         ];
 
+        $this->seedModulesAndLessons($course, $modules);
+    }
+
+    private function seedLaravelProCourse(): void
+    {
+        $course = Course::create([
+            'title' => 'Laravel Chuyên Nghiệp',
+            'slug' => 'laravel-chuyen-nghiep',
+            'description' => 'Nâng tầm kỹ năng Laravel với các kiến thức về kiến trúc hệ thống, Design Patterns, và quy trình phát triển phần mềm chuyên nghiệp.',
+            'level' => 'advanced',
+        ]);
+
+        $modules = [
+            'Kiến trúc & Tiêu chuẩn' => [
+                ['Kiến trúc & Best Practices', 'kien-truc-va-best-practices'],
+                ['Service Providers & Core của Laravel', 'service-providers-va-core'],
+                ['Repository & Service Pattern', 'repository-va-service-pattern'],
+            ],
+            'Testing chuyên nghiệp' => [
+                ['Unit Testing với Pest', 'unit-testing-voi-pest'],
+            ],
+            'Tối ưu hóa & Scale' => [
+                ['Tối ưu Database & Caching', 'toi-uu-database-va-caching'],
+            ],
+        ];
+
+        $this->seedModulesAndLessons($course, $modules);
+    }
+
+    private function seedModulesAndLessons(Course $course, array $modules): void
+    {
         $moduleOrder = 1;
         foreach ($modules as $moduleTitle => $lessons) {
             $module = Module::create([
@@ -94,7 +131,7 @@ class CourseSeeder extends Seeder
                     'module_id' => $module->id,
                     'title' => $title,
                     'slug' => $slug,
-                    'content' => '', // Loaded from markdown files via Lesson model accessor
+                    'content' => '', // Content loaded via accessor in Model
                     'order' => $index + 1,
                 ]);
             }
