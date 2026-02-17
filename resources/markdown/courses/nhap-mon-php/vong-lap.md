@@ -1,102 +1,242 @@
-# Vòng lặp trong PHP (Loops)
+# Vòng lặp
 
-Vòng lặp được sử dụng để thực thi lặp lại một khối mã lệnh nhiều lần chừng nào một điều kiện cụ thể còn thỏa mãn. PHP hỗ trợ 4 loại vòng lặp chính.
+## Giới thiệu
 
----
+Vòng lặp (loops) cho phép thực thi một đoạn code nhiều lần. PHP cung cấp nhiều loại vòng lặp khác nhau cho các tình huống khác nhau.
 
-## 1. Vòng lặp `for`
-Thường được dùng khi bạn biết trước chính xác số lần muốn lặp.
+## For Loop
+
+Sử dụng khi biết trước số lần lặp.
 
 ```php
 <?php
+// Cú pháp: for (khởi tạo; điều kiện; bước nhảy)
 for ($i = 0; $i < 5; $i++) {
-    echo "Số: $i <br>";
+    echo "Lần lặp thứ $i<br>";
 }
+
+// In số từ 1 đến 10
+for ($i = 1; $i <= 10; $i++) {
+    echo $i . " ";
+}
+
+// Đếm ngược
+for ($i = 10; $i >= 1; $i--) {
+    echo $i . " ";
+}
+
+// Bước nhảy 2
+for ($i = 0; $i <= 10; $i += 2) {
+    echo $i . " "; // 0 2 4 6 8 10
+}
+?>
 ```
-- `$i = 0`: Khởi tạo biến đếm.
-- `$i < 5`: Điều kiện dừng (chạy khi $i nhỏ hơn 5).
-- `$i++`: Tăng biến đếm sau mỗi lần lặp.
 
----
+## While Loop
 
-## 2. Vòng lặp `while`
-Lặp lại khối mã chừng nào điều kiện còn Đúng. Dùng khi không biết trước số lần lặp.
+Lặp khi điều kiện còn đúng.
 
 ```php
 <?php
-$x = 1;
-while($x <= 3) {
-    echo "Lần lặp thứ $x <br>";
-    $x++;
+$i = 0;
+while ($i < 5) {
+    echo "Lần lặp thứ $i<br>";
+    $i++;
 }
+
+// Đọc file từng dòng
+$file = fopen("data.txt", "r");
+while (!feof($file)) {
+    $line = fgets($file);
+    echo $line;
+}
+fclose($file);
+?>
 ```
-**⚠️ Cảnh báo:** Nếu bạn quên tăng biến đếm (`$x++`), vòng lặp sẽ chạy vô tận và làm treo máy chủ!
 
----
+## Do-While Loop
 
-## 3. Vòng lặp `do...while`
-Tương tự `while`, nhưng khối mã sẽ được **thực thi ít nhất một lần** trước khi kiểm tra điều kiện.
+Thực thi ít nhất một lần, sau đó kiểm tra điều kiện.
 
 ```php
 <?php
-$y = 6;
+$i = 0;
 do {
-    echo "Giá trị là: $y"; // Vẫn in ra dù 6 > 5
-    $y++;
-} while ($y <= 5);
+    echo "Lần lặp thứ $i<br>";
+    $i++;
+} while ($i < 5);
+
+// Menu chương trình
+do {
+    echo "1. Thêm\n";
+    echo "2. Sửa\n";
+    echo "3. Xóa\n";
+    echo "0. Thoát\n";
+    $choice = readline("Chọn: ");
+} while ($choice != 0);
+?>
 ```
 
----
+## Foreach Loop
 
-## 4. Vòng lặp `foreach`
-Được thiết kế riêng để duyệt qua các phần tử của một **Mảng (Array)** hoặc **Đối tượng (Object)**. Đây là vòng lặp được dùng nhiều nhất trong thực tế.
+Dùng để duyệt qua mảng.
 
-### Duyệt mảng chỉ số:
 ```php
 <?php
-$colors = ["Đỏ", "Xanh", "Vàng"];
-foreach ($colors as $value) {
-    echo "Màu: $value <br>";
+// Indexed array
+$fruits = ["Apple", "Banana", "Orange"];
+
+foreach ($fruits as $fruit) {
+    echo $fruit . "<br>";
 }
-```
 
-### Duyệt mảng kết hợp (Key => Value):
-```php
-<?php
-$ages = ["An" => 20, "Bình" => 22, "Chi" => 19];
-foreach ($ages as $name => $age) {
-    echo "$name năm nay $age tuổi. <br>";
+// Với index
+foreach ($fruits as $index => $fruit) {
+    echo "$index: $fruit<br>";
 }
+
+// Associative array
+$user = [
+    "name" => "John",
+    "email" => "john@example.com",
+    "age" => 25
+];
+
+foreach ($user as $key => $value) {
+    echo "$key: $value<br>";
+}
+
+// Multi-dimensional array
+$users = [
+    ["name" => "John", "age" => 25],
+    ["name" => "Jane", "age" => 30]
+];
+
+foreach ($users as $user) {
+    echo "{$user['name']} - {$user['age']}<br>";
+}
+?>
 ```
 
----
+## Break và Continue
 
-## 5. Các lệnh điều hướng vòng lặp
-
-### `break`
-Dùng để thoát khỏi vòng lặp ngay lập tức.
 ```php
 <?php
+// Break - Thoát khỏi vòng lặp
 for ($i = 0; $i < 10; $i++) {
-    if ($i == 5) break; // Dừng lại khi i bằng 5
-    echo $i;
+    if ($i === 5) {
+        break; // Dừng khi i = 5
+    }
+    echo $i . " "; // 0 1 2 3 4
 }
+
+// Continue - Bỏ qua lần lặp hiện tại
+for ($i = 0; $i < 10; $i++) {
+    if ($i % 2 === 0) {
+        continue; // Bỏ qua số chẵn
+    }
+    echo $i . " "; // 1 3 5 7 9
+}
+
+// Break với nested loops
+for ($i = 0; $i < 3; $i++) {
+    for ($j = 0; $j < 3; $j++) {
+        if ($i === 1 && $j === 1) {
+            break 2; // Thoát cả 2 vòng lặp
+        }
+        echo "($i, $j) ";
+    }
+}
+?>
 ```
 
-### `continue`
-Bỏ qua lần lặp hiện tại và chuyển sang lần lặp kế tiếp.
+## Ví dụ thực tế
+
+### 1. Tạo bảng cửu chương
+
 ```php
 <?php
-for ($i = 0; $i < 5; $i++) {
-    if ($i == 2) continue; // Bỏ qua số 2
-    echo $i;
+for ($i = 1; $i <= 10; $i++) {
+    echo "Bảng cửu chương $i:<br>";
+    for ($j = 1; $j <= 10; $j++) {
+        $result = $i * $j;
+        echo "$i x $j = $result<br>";
+    }
+    echo "<br>";
 }
-// Kết quả: 0 1 3 4
+?>
 ```
 
----
+### 2. Tính tổng mảng
 
-## 💡 Mẹo và Thực tế
-1. **Dùng `foreach` khi làm việc với dữ liệu:** Hầu hết dữ liệu từ Database trả về là mảng, nên `foreach` là lựa chọn tối ưu và an toàn nhất.
-2. **Kiểm tra mảng trước khi lặp:** Tránh lỗi bằng cách kiểm tra mảng có rỗng không: `if (!empty($items)) { foreach... }`.
-3. **Hiệu năng:** `for` nhanh hơn `foreach` một chút nhưng không đáng kể trong hầu hết ứng dụng web. Hãy ưu tiên mã nguồn dễ đọc (Readable code).
+```php
+<?php
+$numbers = [10, 20, 30, 40, 50];
+$sum = 0;
+
+foreach ($numbers as $number) {
+    $sum += $number;
+}
+
+echo "Tổng: $sum"; // 150
+?>
+```
+
+### 3. Tìm số nguyên tố
+
+```php
+<?php
+function isPrime($n) {
+    if ($n < 2) return false;
+    
+    for ($i = 2; $i <= sqrt($n); $i++) {
+        if ($n % $i === 0) {
+            return false;
+        }
+    }
+    
+    return true;
+}
+
+// In số nguyên tố từ 1 đến 100
+for ($i = 1; $i <= 100; $i++) {
+    if (isPrime($i)) {
+        echo $i . " ";
+    }
+}
+?>
+```
+
+## Best Practices
+
+```php
+<?php
+// ✅ Sử dụng foreach cho mảng
+$items = [1, 2, 3, 4, 5];
+foreach ($items as $item) {
+    echo $item;
+}
+
+// ✅ Tránh vòng lặp vô hạn
+$i = 0;
+while ($i < 10) {
+    echo $i;
+    $i++; // Đừng quên tăng biến đếm!
+}
+
+// ✅ Sử dụng break/continue hợp lý
+foreach ($users as $user) {
+    if (!$user->isActive()) {
+        continue;
+    }
+    // Process active users
+}
+?>
+```
+
+## Bài tập
+
+1. In hình tam giác bằng dấu *
+2. Tính giai thừa của một số
+3. Đảo ngược một chuỗi
+4. Tìm số Fibonacci thứ n
