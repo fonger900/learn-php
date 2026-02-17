@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
-import { BookOpen, Clock, Award } from 'lucide-vue-next';
+import { BookOpen, Clock, Award, Users, CheckCircle2, GraduationCap } from 'lucide-vue-next';
 import GradientCard from '@/components/ui/GradientCard.vue';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
@@ -13,6 +13,10 @@ defineProps<{
         description: string;
         level: string;
         modules_count: number;
+        lessons_count: number;
+        students_count: number;
+        estimated_hours: number;
+        is_enrolled: boolean;
     }>;
 }>();
 
@@ -28,6 +32,12 @@ const levelColors = {
     intermediate: 'bg-yellow-500/20 text-yellow-600 dark:text-yellow-400',
     advanced: 'bg-red-500/20 text-red-600 dark:text-red-400',
 };
+
+const levelLabels = {
+    beginner: 'Beginner',
+    intermediate: 'Intermediate',
+    advanced: 'Advanced',
+};
 </script>
 
 <template>
@@ -37,12 +47,31 @@ const levelColors = {
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="flex h-full flex-1 flex-col gap-6 p-6">
             <!-- Header -->
-            <div class="flex items-center justify-between">
-                <div>
-                    <h1 class="text-3xl font-bold">Available Courses</h1>
-                    <p class="mt-2 text-muted-foreground">
-                        Explore our comprehensive learning paths
+            <div class="relative overflow-hidden rounded-2xl gradient-full p-8 text-white mb-2">
+                <div class="relative z-10">
+                    <h1 class="text-4xl font-bold mb-3">Khóa học của chúng tôi</h1>
+                    <p class="text-white/90 text-lg">
+                        Khám phá các khóa học toàn diện từ cơ bản đến nâng cao
                     </p>
+                    <div class="mt-6 flex flex-wrap gap-6">
+                        <div class="flex items-center gap-2">
+                            <GraduationCap class="h-5 w-5" />
+                            <span>{{ courses.length }} khóa học</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <BookOpen class="h-5 w-5" />
+                            <span>{{ courses.reduce((sum, c) => sum + c.lessons_count, 0) }} bài học</span>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <Users class="h-5 w-5" />
+                            <span>{{ courses.reduce((sum, c) => sum + c.students_count, 0) }} học viên</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="absolute right-0 top-0 h-full w-1/3 opacity-10">
+                    <div class="absolute inset-0 animate-float">
+                        <GraduationCap class="h-64 w-64" />
+                    </div>
                 </div>
             </div>
 
@@ -52,19 +81,27 @@ const levelColors = {
                     class="group block">
                     <GradientCard variant="border" hover
                         class="h-full transition-all duration-300 group-hover:shadow-2xl">
+                        <!-- Enrolled Badge -->
+                        <div v-if="course.is_enrolled" class="mb-3">
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-semibold rounded-full bg-primary/20 text-primary">
+                                <CheckCircle2 class="h-3 w-3" />
+                                Đã đăng ký
+                            </span>
+                        </div>
+
                         <!-- Course Header -->
                         <div class="flex items-start justify-between mb-4">
                             <div class="flex-1">
-                                <h2 class="text-xl font-bold group-hover:text-primary transition-colors">
+                                <h2 class="text-2xl font-bold group-hover:text-primary transition-colors mb-2">
                                     {{ course.title }}
                                 </h2>
+                                <span :class="[
+                                    'inline-block px-3 py-1 text-xs font-semibold rounded-full capitalize',
+                                    levelColors[course.level as keyof typeof levelColors] || levelColors.beginner
+                                ]">
+                                    {{ levelLabels[course.level as keyof typeof levelLabels] || course.level }}
+                                </span>
                             </div>
-                            <span :class="[
-                                'px-3 py-1 text-xs font-semibold rounded-full capitalize whitespace-nowrap ml-2',
-                                levelColors[course.level as keyof typeof levelColors] || levelColors.beginner
-                            ]">
-                                {{ course.level }}
-                            </span>
                         </div>
 
                         <!-- Course Description -->
@@ -72,23 +109,54 @@ const levelColors = {
                             {{ course.description }}
                         </p>
 
-                        <!-- Course Meta -->
-                        <div class="flex items-center gap-4 pt-4 border-t border-border">
-                            <div class="flex items-center gap-2 text-sm text-muted-foreground">
-                                <BookOpen class="h-4 w-4" />
-                                <span>{{ course.modules_count }} Modules</span>
+                        <!-- Course Stats -->
+                        <div class="grid grid-cols-2 gap-3 mb-4">
+                            <div class="flex items-center gap-2 text-sm">
+                                <div class="h-8 w-8 rounded-lg bg-primary/10 flex items-center justify-center">
+                                    <BookOpen class="h-4 w-4 text-primary" />
+                                </div>
+                                <div>
+                                    <div class="font-semibold">{{ course.modules_count }}</div>
+                                    <div class="text-xs text-muted-foreground">Modules</div>
+                                </div>
                             </div>
-                            <div class="flex items-center gap-2 text-sm text-muted-foreground">
-                                <Clock class="h-4 w-4" />
-                                <span>~{{ course.modules_count * 2 }}h</span>
+                            <div class="flex items-center gap-2 text-sm">
+                                <div class="h-8 w-8 rounded-lg bg-secondary/10 flex items-center justify-center">
+                                    <GraduationCap class="h-4 w-4 text-secondary" />
+                                </div>
+                                <div>
+                                    <div class="font-semibold">{{ course.lessons_count }}</div>
+                                    <div class="text-xs text-muted-foreground">Bài học</div>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2 text-sm">
+                                <div class="h-8 w-8 rounded-lg bg-accent/10 flex items-center justify-center">
+                                    <Clock class="h-4 w-4 text-accent" />
+                                </div>
+                                <div>
+                                    <div class="font-semibold">{{ Math.round(course.estimated_hours) }}h</div>
+                                    <div class="text-xs text-muted-foreground">Thời lượng</div>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-2 text-sm">
+                                <div class="h-8 w-8 rounded-lg bg-primary/10 flex items-center justify-center">
+                                    <Users class="h-4 w-4 text-primary" />
+                                </div>
+                                <div>
+                                    <div class="font-semibold">{{ course.students_count }}</div>
+                                    <div class="text-xs text-muted-foreground">Học viên</div>
+                                </div>
                             </div>
                         </div>
 
                         <!-- Hover Indicator -->
-                        <div
-                            class="mt-4 flex items-center gap-2 text-primary opacity-0 group-hover:opacity-100 transition-opacity">
-                            <span class="text-sm font-medium">Start Learning</span>
-                            <span class="transform group-hover:translate-x-1 transition-transform">→</span>
+                        <div class="pt-4 border-t border-border">
+                            <div class="flex items-center justify-between text-primary group-hover:translate-x-1 transition-transform">
+                                <span class="text-sm font-medium">
+                                    {{ course.is_enrolled ? 'Tiếp tục học' : 'Bắt đầu học' }}
+                                </span>
+                                <span>→</span>
+                            </div>
                         </div>
                     </GradientCard>
                 </Link>

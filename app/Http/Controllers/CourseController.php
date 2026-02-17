@@ -10,8 +10,27 @@ class CourseController extends Controller
 {
     public function index(): Response
     {
+        $courses = Course::withCount(['modules', 'lessons', 'students'])
+            ->get()
+            ->map(function ($course) {
+                return [
+                    'id' => $course->id,
+                    'title' => $course->title,
+                    'slug' => $course->slug,
+                    'description' => $course->description,
+                    'level' => $course->level,
+                    'modules_count' => $course->modules_count,
+                    'lessons_count' => $course->lessons_count,
+                    'students_count' => $course->students_count,
+                    'estimated_hours' => $course->lessons_count * 1.5, // Estimate 1.5h per lesson
+                    'is_enrolled' => auth()->check() 
+                        ? $course->students()->where('user_id', auth()->id())->exists()
+                        : false,
+                ];
+            });
+
         return Inertia::render('Courses/Index', [
-            'courses' => Course::withCount(['modules', 'lessons'])->get(),
+            'courses' => $courses,
         ]);
     }
 
@@ -21,8 +40,29 @@ class CourseController extends Controller
             $query->orderBy('order');
         }]);
 
+        $totalLessons = $course->lessons()->count();
+        $estimatedHours = round($totalLessons * 1.5);
+        
+        $isEnrolled = auth()->check() 
+            ? $course->students()->where('user_id', auth()->id())->exists()
+            : false;
+            
+        $completedLessons = auth()->check()
+            ? auth()->user()->lessons()
+                ->whereHas('module', fn($q) => $q->where('course_id', $course->id))
+                ->count()
+            : 0;
+            
+        $progress = $totalLessons > 0 ? round(($completedLessons / $totalLessons) * 100) : 0;
+
         return Inertia::render('Courses/Show', [
-            'course' => $course,
+            'course' => array_merge($course->toArray(), [
+                'total_lessons' => $totalLessons,
+                'estimated_hours' => $estimatedHours,
+                'is_enrolled' => $isEnrolled,
+                'completed_lessons' => $completedLessons,
+                'progress' => $progress,
+            ]),
         ]);
     }
 }

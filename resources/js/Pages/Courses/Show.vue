@@ -13,6 +13,11 @@ const props = defineProps<{
         slug: string;
         description: string;
         level: string;
+        total_lessons: number;
+        estimated_hours: number;
+        is_enrolled: boolean;
+        completed_lessons: number;
+        progress: number;
         modules: Array<{
             id: number;
             title: string;
@@ -35,8 +40,6 @@ const breadcrumbs: BreadcrumbItem[] = [
         href: `/courses/${props.course.slug}`,
     },
 ];
-
-const totalLessons = props.course.modules.reduce((acc, m) => acc + m.lessons.length, 0);
 </script>
 
 <template>
@@ -78,7 +81,7 @@ const totalLessons = props.course.modules.reduce((acc, m) => acc + m.lessons.len
                                     class="min-w-[200px]"
                                 >
                                     <PlayCircle class="h-5 w-5" />
-                                    Start Learning
+                                    {{ course.is_enrolled ? 'Tiếp tục học' : 'Bắt đầu học' }}
                                 </AnimatedButton>
                             </div>
                         </div>
@@ -86,28 +89,50 @@ const totalLessons = props.course.modules.reduce((acc, m) => acc + m.lessons.len
                         <!-- Course Stats Card -->
                         <div class="w-full lg:w-80 shrink-0">
                             <GradientCard variant="border" glow class="p-6 space-y-6 bg-background/80 backdrop-blur-xl">
-                                <h4 class="font-bold text-lg border-b border-border pb-4">Course Overview</h4>
+                                <h4 class="font-bold text-lg border-b border-border pb-4">Tổng quan khóa học</h4>
                                 <div class="space-y-4">
                                     <div class="flex items-center justify-between text-sm">
                                         <div class="flex items-center gap-2 text-muted-foreground">
                                             <Clock class="h-4 w-4" />
-                                            <span>Duration</span>
+                                            <span>Thời lượng</span>
                                         </div>
-                                        <span class="font-semibold">~12 Hours</span>
+                                        <span class="font-semibold">~{{ course.estimated_hours }} giờ</span>
                                     </div>
                                     <div class="flex items-center justify-between text-sm">
                                         <div class="flex items-center gap-2 text-muted-foreground">
                                             <BarChart class="h-4 w-4" />
-                                            <span>Level</span>
+                                            <span>Cấp độ</span>
                                         </div>
                                         <span class="font-semibold capitalize">{{ course.level }}</span>
                                     </div>
                                     <div class="flex items-center justify-between text-sm">
                                         <div class="flex items-center gap-2 text-muted-foreground">
-                                            <GraduationCap class="h-4 w-4" />
-                                            <span>Certificate</span>
+                                            <BookOpen class="h-4 w-4" />
+                                            <span>Bài học</span>
                                         </div>
-                                        <span class="font-semibold text-green-500">Included</span>
+                                        <span class="font-semibold">{{ course.total_lessons }}</span>
+                                    </div>
+                                    <div class="flex items-center justify-between text-sm">
+                                        <div class="flex items-center gap-2 text-muted-foreground">
+                                            <GraduationCap class="h-4 w-4" />
+                                            <span>Chứng chỉ</span>
+                                        </div>
+                                        <span class="font-semibold text-green-500">Có</span>
+                                    </div>
+                                    <div v-if="course.is_enrolled" class="pt-4 border-t border-border">
+                                        <div class="space-y-2">
+                                            <div class="flex items-center justify-between text-sm">
+                                                <span class="text-muted-foreground">Tiến độ</span>
+                                                <span class="font-semibold">{{ course.progress }}%</span>
+                                            </div>
+                                            <div class="h-2 bg-muted rounded-full overflow-hidden">
+                                                <div class="h-full bg-gradient-to-r from-primary to-secondary transition-all duration-300" 
+                                                     :style="{ width: `${course.progress}%` }"></div>
+                                            </div>
+                                            <p class="text-xs text-muted-foreground">
+                                                {{ course.completed_lessons }} / {{ course.total_lessons }} bài học hoàn thành
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
                             </GradientCard>
@@ -119,8 +144,8 @@ const totalLessons = props.course.modules.reduce((acc, m) => acc + m.lessons.len
             <!-- Syllabus Section -->
             <div class="max-w-5xl mx-auto px-6 py-16">
                 <div class="mb-10 space-y-2">
-                    <h2 class="text-3xl font-extrabold tracking-tight">Course Syllabus</h2>
-                    <p class="text-muted-foreground">Comprehensive curriculum designed for mastery.</p>
+                    <h2 class="text-3xl font-extrabold tracking-tight">Nội dung khóa học</h2>
+                    <p class="text-muted-foreground">Chương trình học toàn diện được thiết kế để thành thạo.</p>
                 </div>
 
                 <div class="space-y-10">
@@ -149,7 +174,7 @@ const totalLessons = props.course.modules.reduce((acc, m) => acc + m.lessons.len
                                 </div>
                                 <div class="flex items-center gap-3">
                                     <span class="text-sm font-medium text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1">
-                                        Start Lesson <ChevronRight class="h-4 w-4" />
+                                        Bắt đầu <ChevronRight class="h-4 w-4" />
                                     </span>
                                 </div>
                             </Link>
