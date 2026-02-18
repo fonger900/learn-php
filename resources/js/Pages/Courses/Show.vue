@@ -86,7 +86,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 
                         <!-- Course Stats Card -->
                         <div class="w-full lg:w-80 shrink-0">
-                            <GradientCard variant="border" glow class="p-6 space-y-6 bg-background/80 backdrop-blur-xl">
+                            <GradientCard variant="border" glow class="p-6 space-y-6 bg-background/95">
                                 <h4 class="font-bold text-lg border-b border-border pb-4">Tổng quan khóa học</h4>
                                 <div class="space-y-4">
                                     <div class="flex items-center justify-between text-sm">

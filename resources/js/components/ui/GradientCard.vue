@@ -23,7 +23,7 @@ const cardClasses = computed(() => {
     full: 'gradient-full text-white',
     border: 'gradient-border bg-card',
   };
-  const hoverEffect = props.hover ? 'hover:scale-[1.02] hover:shadow-xl' : '';
+  const hoverEffect = props.hover ? 'hover:shadow-xl' : '';
   const glowEffect = props.glow ? 'animate-glow' : '';
 
   return cn(base, variants[props.variant], hoverEffect, glowEffect, props.class);

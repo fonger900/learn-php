@@ -95,7 +95,7 @@ const faqs = [
 
     <div class="min-h-screen bg-background font-sans text-foreground selection:bg-primary/20 selection:text-primary">
         <!-- Navigation -->
-        <header class="glass sticky top-0 z-50 border-b border-border/50 backdrop-blur-md">
+        <header class="glass sticky top-0 z-50 border-b border-border/50 bg-background/95">
             <div class="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
                 <div class="flex items-center gap-2">
                     <Logo class="h-8 w-8 text-primary" />
@@ -129,10 +129,6 @@ const faqs = [
             <!-- Animated Background -->
             <div class="absolute inset-0 -z-10">
                 <div class="absolute inset-0 bg-gradient-to-br from-primary/5 via-secondary/5 to-accent/5"></div>
-                <div class="absolute top-1/4 left-1/4 h-96 w-96 rounded-full bg-primary/10 blur-3xl opacity-50">
-                </div>
-                <div class="absolute bottom-1/4 right-1/4 h-96 w-96 rounded-full bg-secondary/10 blur-3xl opacity-50">
-                </div>
             </div>
 
             <div class="mx-auto max-w-7xl px-6">
@@ -194,8 +190,8 @@ const faqs = [
 
                     <!-- Hero Visual -->
                     <div class="relative hidden lg:block">
-                        <div class="relative z-10 transform hover:scale-[1.02] transition-transform duration-500">
-                            <GradientCard variant="border" glow class="p-8 backdrop-blur-xl bg-background/80">
+                        <div class="relative z-10">
+                            <GradientCard variant="border" glow class="p-8 bg-background/95">
                                 <div class="space-y-6">
                                     <div class="flex items-center justify-between">
                                         <div class="flex items-center gap-4">
@@ -233,11 +229,9 @@ const faqs = [
                             </GradientCard>
                         </div>
                         <!-- Decorative Elements -->
-                        <div
-                            class="absolute -top-12 -right-12 h-64 w-64 rounded-full gradient-secondary opacity-20 blur-[100px]">
+                        <div class="absolute -top-12 -right-12 h-64 w-64 rounded-full gradient-secondary opacity-10">
                         </div>
-                        <div
-                            class="absolute -bottom-12 -left-12 h-64 w-64 rounded-full gradient-full opacity-20 blur-[100px]">
+                        <div class="absolute -bottom-12 -left-12 h-64 w-64 rounded-full gradient-full opacity-10">
                         </div>
                     </div>
                 </div>
@@ -288,11 +282,10 @@ const faqs = [
                         class="flex flex-col h-full overflow-hidden group">
                         <!-- Placeholder Image Area -->
                         <div class="aspect-video w-full bg-muted relative overflow-hidden">
-                            <div
-                                class="absolute inset-0 bg-gradient-to-br from-primary/20 to-secondary/20 group-hover:scale-105 transition-transform duration-500">
+                            <div class="absolute inset-0 bg-gradient-to-br from-primary/20 to-secondary/20">
                             </div>
                             <div
-                                class="absolute bottom-4 left-4 bg-background/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-foreground">
+                                class="absolute bottom-4 left-4 bg-background/95 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider text-foreground">
                                 {{ course.level }}
                             </div>
                         </div>
@@ -406,12 +399,12 @@ const faqs = [
                     </div>
 
                     <!-- Background Decor -->
-                    <div class="absolute inset-0 z-0">
+                    <div class="absolute inset-0 z-0 opacity-30">
                         <div
-                            class="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl transform translate-x-1/2 -translate-y-1/2">
+                            class="absolute top-0 right-0 w-64 h-64 bg-white/20 rounded-full transform translate-x-1/2 -translate-y-1/2">
                         </div>
                         <div
-                            class="absolute bottom-0 left-0 w-64 h-64 bg-black/10 rounded-full blur-3xl transform -translate-x-1/2 translate-y-1/2">
+                            class="absolute bottom-0 left-0 w-64 h-64 bg-black/20 rounded-full transform -translate-x-1/2 translate-y-1/2">
                         </div>
                     </div>
                 </GradientCard>
