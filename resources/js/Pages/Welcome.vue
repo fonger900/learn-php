@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
 import { BookOpen, Code2, GraduationCap, Rocket, Sparkles, Trophy, Zap, Star, CheckCircle, ArrowRight } from 'lucide-vue-next';
+import Logo from '@/components/Logo.vue';
 import AnimatedButton from '@/components/ui/AnimatedButton.vue';
 import GradientCard from '@/components/ui/GradientCard.vue';
 import { dashboard, login, register } from '@/routes';
@@ -97,8 +98,8 @@ const faqs = [
         <header class="glass sticky top-0 z-50 border-b border-border/50 backdrop-blur-md">
             <div class="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
                 <div class="flex items-center gap-2">
-                    <GraduationCap class="h-8 w-8 text-primary" />
-                    <span class="text-xl font-bold tracking-tight">LearnHub</span>
+                    <Logo class="h-8 w-8 text-primary" />
+                    <span class="text-xl font-bold tracking-tight">HocPHP</span>
                 </div>
 
                 <nav class="flex items-center gap-6">
@@ -250,7 +251,7 @@ const faqs = [
         <section class="py-24 bg-muted/30 relative">
             <div class="mx-auto max-w-7xl px-6">
                 <div class="text-center mb-16 space-y-4">
-                    <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">Tại sao chọn LearnHub?</h2>
+                    <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">Tại sao chọn HocPHP?</h2>
                     <p class="text-lg text-muted-foreground max-w-2xl mx-auto">
                         Mọi thứ bạn cần để trở thành lập trình viên web chuyên nghiệp, tất cả ở một nơi.
                     </p>
@@ -304,7 +305,7 @@ const faqs = [
                                 {{
                                     course.title }}</h3>
                             <p class="text-muted-foreground text-sm line-clamp-2 mb-6 flex-grow">{{ course.description
-                            }}</p>
+                                }}</p>
 
                             <div class="mt-auto pt-4 border-t border-border/50 flex items-center justify-between">
                                 <div class="flex items-center gap-1 text-sm text-yellow-500">
@@ -387,7 +388,7 @@ const faqs = [
                     <div class="relative z-10 space-y-8">
                         <h2 class="text-4xl font-bold tracking-tight lg:text-5xl">Sẵn sàng Nâng trình?</h2>
                         <p class="text-lg text-white/90 max-w-2xl mx-auto leading-relaxed">
-                            Tham gia cộng đồng lập trình viên đang làm chủ kỹ năng với LearnHub.
+                            Tham gia cộng đồng lập trình viên đang làm chủ kỹ năng với HocPHP.
                             Bắt đầu học thử ngay hôm nay và khai phá tiềm năng vô hạn.
                         </p>
                         <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -426,8 +427,8 @@ const faqs = [
                 <div class="grid md:grid-cols-4 gap-8 mb-8">
                     <div class="col-span-1 md:col-span-2">
                         <div class="flex items-center gap-2 mb-4">
-                            <GraduationCap class="h-6 w-6 text-primary" />
-                            <span class="font-bold text-xl">LearnHub</span>
+                            <Logo class="h-6 w-6 text-primary" />
+                            <span class="font-bold text-xl">HocPHP</span>
                         </div>
                         <p class="text-muted-foreground max-w-xs">
                             Trao quyền cho lập trình viên xây dựng tương lai với các công cụ hiện đại và sự hướng dẫn
@@ -456,7 +457,7 @@ const faqs = [
                 </div>
                 <div class="border-t border-border pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
                     <div class="text-sm text-muted-foreground">
-                        © 2026 LearnHub. Bảo lưu mọi quyền.
+                        © 2026 HocPHP. Bảo lưu mọi quyền.
                     </div>
                     <div class="flex gap-6">
                         <a href="#" class="text-muted-foreground hover:text-primary"><span
