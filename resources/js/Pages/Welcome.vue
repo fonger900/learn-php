@@ -129,10 +129,10 @@ const faqs = [
             <!-- Animated Background -->
             <div class="absolute inset-0 -z-10">
                 <div class="absolute inset-0 bg-gradient-to-br from-primary/5 via-secondary/5 to-accent/5"></div>
-                <div class="absolute top-1/4 left-1/4 h-96 w-96 rounded-full bg-primary/10 blur-3xl animate-pulse">
+                <div class="absolute top-1/4 left-1/4 h-96 w-96 rounded-full bg-primary/10 blur-3xl opacity-50">
                 </div>
-                <div class="absolute bottom-1/4 right-1/4 h-96 w-96 rounded-full bg-secondary/10 blur-3xl animate-pulse"
-                    style="animation-delay: 2s;"></div>
+                <div class="absolute bottom-1/4 right-1/4 h-96 w-96 rounded-full bg-secondary/10 blur-3xl opacity-50">
+                </div>
             </div>
 
             <div class="mx-auto max-w-7xl px-6">
@@ -219,10 +219,7 @@ const faqs = [
                                             <span>65%</span>
                                         </div>
                                         <div class="h-3 bg-muted rounded-full overflow-hidden">
-                                            <div class="h-full gradient-primary rounded-full relative"
-                                                style="width: 65%">
-                                                <div class="absolute inset-0 bg-white/20 animate-[shimmer_2s_infinite]">
-                                                </div>
+                                            <div class="h-full gradient-primary rounded-full" style="width: 65%">
                                             </div>
                                         </div>
                                     </div>

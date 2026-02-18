@@ -55,7 +55,7 @@ const props = defineProps<{
                     <p class="text-white/90">Continue your learning journey and achieve your goals.</p>
                 </div>
                 <div class="absolute right-0 top-0 h-full w-1/3 opacity-20">
-                    <div class="absolute inset-0 animate-float">
+                    <div class="absolute inset-0">
                         <GraduationCap class="h-48 w-48" />
                     </div>
                 </div>
@@ -63,21 +63,19 @@ const props = defineProps<{
 
             <!-- Stats Grid -->
             <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-                <StatCard title="Courses Enrolled" :value="props.stats.coursesEnrolled" :icon="BookOpen" 
+                <StatCard title="Courses Enrolled" :value="props.stats.coursesEnrolled" :icon="BookOpen"
                     :trend="props.stats.coursesEnrolled > 0 ? 'up' : 'neutral'"
-                    :trend-value="props.stats.coursesEnrolled > 0 ? 'Keep learning!' : 'Start a course'" 
+                    :trend-value="props.stats.coursesEnrolled > 0 ? 'Keep learning!' : 'Start a course'"
                     gradient="primary" />
-                <StatCard title="Lessons Completed" :value="props.stats.lessonsCompleted" :icon="GraduationCap" 
+                <StatCard title="Lessons Completed" :value="props.stats.lessonsCompleted" :icon="GraduationCap"
                     :trend="props.stats.lessonsCompleted > 0 ? 'up' : 'neutral'"
-                    :trend-value="props.stats.lessonsCompleted > 0 ? 'Great progress!' : 'Begin your journey'" 
+                    :trend-value="props.stats.lessonsCompleted > 0 ? 'Great progress!' : 'Begin your journey'"
                     gradient="secondary" />
-                <StatCard title="Learning Hours" :value="`${props.stats.totalHours}h`" :icon="TrendingUp" 
+                <StatCard title="Learning Hours" :value="`${props.stats.totalHours}h`" :icon="TrendingUp"
                     :trend="props.stats.totalHours > 0 ? 'up' : 'neutral'"
-                    :trend-value="props.stats.totalHours > 0 ? 'Time invested' : 'Start learning'" 
-                    gradient="accent" />
-                <StatCard title="Achievements" :value="props.stats.achievements" :icon="Trophy" 
-                    trend="neutral"
-                    :trend-value="props.stats.achievements > 0 ? `${props.stats.achievements} earned` : 'Complete lessons to earn'" 
+                    :trend-value="props.stats.totalHours > 0 ? 'Time invested' : 'Start learning'" gradient="accent" />
+                <StatCard title="Achievements" :value="props.stats.achievements" :icon="Trophy" trend="neutral"
+                    :trend-value="props.stats.achievements > 0 ? `${props.stats.achievements} earned` : 'Complete lessons to earn'"
                     gradient="primary" />
             </div>
 

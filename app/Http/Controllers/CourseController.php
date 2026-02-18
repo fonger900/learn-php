@@ -13,6 +13,11 @@ class CourseController extends Controller
         $courses = Course::withCount(['modules', 'lessons', 'students'])
             ->get()
             ->map(function ($course) {
+                $isEnrolled = false;
+                if (auth()->check()) {
+                    $isEnrolled = $course->students()->where('user_id', auth()->id())->exists();
+                }
+
                 return [
                     'id' => $course->id,
                     'title' => $course->title,
@@ -22,10 +27,8 @@ class CourseController extends Controller
                     'modules_count' => $course->modules_count,
                     'lessons_count' => $course->lessons_count,
                     'students_count' => $course->students_count,
-                    'estimated_hours' => $course->lessons_count * 1.5, // Estimate 1.5h per lesson
-                    'is_enrolled' => auth()->check() 
-                        ? $course->students()->where('user_id', auth()->id())->exists()
-                        : false,
+                    'estimated_hours' => $course->lessons_count * 1.5,
+                    'is_enrolled' => $isEnrolled,
                 ];
             });
 
@@ -42,17 +45,17 @@ class CourseController extends Controller
 
         $totalLessons = $course->lessons()->count();
         $estimatedHours = round($totalLessons * 1.5);
-        
-        $isEnrolled = auth()->check() 
+
+        $isEnrolled = auth()->check()
             ? $course->students()->where('user_id', auth()->id())->exists()
             : false;
-            
+
         $completedLessons = auth()->check()
             ? auth()->user()->lessons()
-                ->whereHas('module', fn($q) => $q->where('course_id', $course->id))
+                ->whereHas('module', fn ($q) => $q->where('course_id', $course->id))
                 ->count()
             : 0;
-            
+
         $progress = $totalLessons > 0 ? round(($completedLessons / $totalLessons) * 100) : 0;
 
         return Inertia::render('Courses/Show', [

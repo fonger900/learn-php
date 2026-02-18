@@ -60,16 +60,16 @@ const levelLabels = {
                         </div>
                         <div class="flex items-center gap-2">
                             <BookOpen class="h-5 w-5" />
-                            <span>{{ courses.reduce((sum, c) => sum + c.lessons_count, 0) }} bài học</span>
+                            <span>{{courses.reduce((sum, c) => sum + c.lessons_count, 0)}} bài học</span>
                         </div>
                         <div class="flex items-center gap-2">
                             <Users class="h-5 w-5" />
-                            <span>{{ courses.reduce((sum, c) => sum + c.students_count, 0) }} học viên</span>
+                            <span>{{courses.reduce((sum, c) => sum + c.students_count, 0)}} học viên</span>
                         </div>
                     </div>
                 </div>
                 <div class="absolute right-0 top-0 h-full w-1/3 opacity-10">
-                    <div class="absolute inset-0 animate-float">
+                    <div class="absolute inset-0">
                         <GraduationCap class="h-64 w-64" />
                     </div>
                 </div>
@@ -83,7 +83,8 @@ const levelLabels = {
                         class="h-full transition-all duration-300 group-hover:shadow-2xl">
                         <!-- Enrolled Badge -->
                         <div v-if="course.is_enrolled" class="mb-3">
-                            <span class="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-semibold rounded-full bg-primary/20 text-primary">
+                            <span
+                                class="inline-flex items-center gap-1.5 px-3 py-1 text-xs font-semibold rounded-full bg-primary/20 text-primary">
                                 <CheckCircle2 class="h-3 w-3" />
                                 Đã đăng ký
                             </span>
@@ -151,7 +152,8 @@ const levelLabels = {
 
                         <!-- Hover Indicator -->
                         <div class="pt-4 border-t border-border">
-                            <div class="flex items-center justify-between text-primary group-hover:translate-x-1 transition-transform">
+                            <div
+                                class="flex items-center justify-between text-primary group-hover:translate-x-1 transition-transform">
                                 <span class="text-sm font-medium">
                                     {{ course.is_enrolled ? 'Tiếp tục học' : 'Bắt đầu học' }}
                                 </span>
