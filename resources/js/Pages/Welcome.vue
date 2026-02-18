@@ -27,63 +27,63 @@ withDefaults(
 const features = [
     {
         icon: BookOpen,
-        title: 'Comprehensive Courses',
-        description: 'Learn from expertly crafted courses covering Laravel, Vue.js, and modern web development.',
+        title: 'Khóa học Toàn diện',
+        description: 'Học từ các khóa học được biên soạn kỹ lưỡng bao gồm Laravel, Vue.js và phát triển web hiện đại.',
     },
     {
         icon: Code2,
-        title: 'Hands-on Projects',
-        description: 'Build real-world applications and strengthen your skills with practical exercises.',
+        title: 'Dự án Thực tế',
+        description: 'Xây dựng các ứng dụng thực tế và củng cố kỹ năng với các bài tập thực hành.',
     },
     {
         icon: Trophy,
-        title: 'Track Your Progress',
-        description: 'Monitor your learning journey with detailed progress tracking and achievements.',
+        title: 'Theo dõi Tiến độ',
+        description: 'Theo dõi hành trình học tập của bạn với hệ thống ghi nhận tiến độ chi tiết và thành tích.',
     },
     {
         icon: Zap,
-        title: 'Learn at Your Pace',
-        description: 'Study whenever and wherever you want with lifetime access to all content.',
+        title: 'Học theo Tốc độ của Bạn',
+        description: 'Học bất cứ khi nào và bất cứ đâu với quyền truy cập trọn đời vào tất cả nội dung.',
     },
 ];
 
 const testimonials = [
     {
         name: 'Sarah Johnson',
-        role: 'Full Stack Developer',
-        content: 'The best investment I made for my career. The Laravel courses are incredibly detailed and practical.',
+        role: 'Lập trình viên Full Stack',
+        content: 'Khoản đầu tư tốt nhất cho sự nghiệp của tôi. Các khóa học Laravel cực kỳ chi tiết và thực tế.',
         avatar: 'https://i.pravatar.cc/150?u=sarah',
     },
     {
         name: 'Michael Chen',
-        role: 'Frontend Engineer',
-        content: 'I finally understand Vue.js composition API thanks to these courses. Highly recommended!',
+        role: 'Kỹ sư Frontend',
+        content: 'Cuối cùng tôi cũng hiểu Composition API của Vue.js nhờ các khóa học này. Rất đáng học!',
         avatar: 'https://i.pravatar.cc/150?u=michael',
     },
     {
         name: 'Emily Davis',
         role: 'Freelancer',
-        content: 'From zero to hero. I built my first SaaS product after completing the masterclass.',
+        content: 'Từ con số 0 đến chuyên gia. Tôi đã xây dựng sản phẩm SaaS đầu tiên sau khi hoàn thành khóa masterclass.',
         avatar: 'https://i.pravatar.cc/150?u=emily',
     },
 ];
 
 const faqs = [
     {
-        question: 'Do I get lifetime access?',
-        answer: 'Yes! Once you enroll in a course, you have lifetime access to the content and any future updates.',
+        question: 'Tôi có được truy cập trọn đời không?',
+        answer: 'Có! Một khi bạn đăng ký khóa học, bạn sẽ có quyền truy cập trọn đời vào nội dung và các bản cập nhật trong tương lai.',
     },
     {
-        question: 'Is this suitable for beginners?',
-        answer: 'Absolutely. We have courses ranging from absolute beginner to advanced architectural patterns.',
+        question: 'Khóa học có phù hợp cho người mới bắt đầu?',
+        answer: 'Hoàn toàn phù hợp. Chúng tôi có các khóa học từ cơ bản đến nâng cao về cấu trúc kiến trúc.',
     },
     {
-        question: 'Do you offer a money-back guarantee?',
-        answer: 'Yes, we offer a 30-day money-back guarantee if you are not satisfied with your purchase.',
+        question: 'Có chính sách hoàn tiền không?',
+        answer: 'Có, chúng tôi hoàn tiền trong vòng 30 ngày nếu bạn không hài lòng.',
     },
     {
-        question: 'Can I download the videos?',
-        answer: 'Yes, all video lessons are available for download so you can learn offline.',
+        question: 'Tôi có thể tải video xuống không?',
+        answer: 'Có, tất cả bài giảng video đều có thể tải xuống để bạn học ngoại tuyến.',
     },
 ];
 </script>
@@ -103,19 +103,19 @@ const faqs = [
 
                 <nav class="flex items-center gap-6">
                     <Link :href="route('courses.index')" class="text-sm font-medium hover:text-primary transition-colors hidden sm:block">
-                        Courses
+                        Khóa học
                     </Link>
                     <div class="h-4 w-px bg-border hidden sm:block"></div>
                     <Link v-if="$page.props.auth.user" :href="dashboard()"
                         class="text-sm font-medium hover:text-primary transition-colors">
-                        Dashboard
+                        Bảng điều khiển
                     </Link>
                     <template v-else>
                         <Link :href="login()" class="text-sm font-medium hover:text-primary transition-colors">
-                            Log in
+                            Đăng nhập
                         </Link>
                         <AnimatedButton v-if="canRegister" :as="Link" :href="register()" variant="primary" size="sm">
-                            Get Started
+                            Bắt đầu ngay
                         </AnimatedButton>
                     </template>
                 </nav>
@@ -139,31 +139,30 @@ const faqs = [
                     <div class="space-y-8 text-center lg:text-left">
                         <div class="inline-flex items-center gap-2 rounded-full glass px-4 py-2 text-sm mx-auto lg:mx-0">
                             <Sparkles class="h-4 w-4 text-primary" />
-                            <span class="font-medium">Start your learning journey today</span>
+                            <span class="font-medium">Bắt đầu hành trình học tập ngay hôm nay</span>
                         </div>
 
                         <h1 class="text-5xl font-extrabold leading-tight lg:text-7xl tracking-tight">
-                            Master Modern
-                            <span class="gradient-full bg-clip-text text-transparent">Web Development</span>
+                            Chinh phục
+                            <span class="gradient-full bg-clip-text text-transparent">Lập trình Web Hiện đại</span>
                         </h1>
 
                         <p class="text-lg text-muted-foreground max-w-2xl mx-auto lg:mx-0 leading-relaxed">
-                            Learn Laravel, Vue.js, and cutting-edge web technologies through hands-on courses designed
-                            by industry experts. Level up your career today.
+                            Học Laravel, Vue.js và các công nghệ web tiên tiến qua các khóa học thực chiến từ chuyên gia. Nâng tầm sự nghiệp của bạn ngay hôm nay.
                         </p>
 
                         <div class="flex flex-wrap gap-4 justify-center lg:justify-start">
                             <AnimatedButton v-if="!$page.props.auth.user" :as="Link" :href="register()"
                                 variant="primary" size="lg" class="shadow-lg shadow-primary/20">
                                 <Rocket class="h-5 w-5" />
-                                Start Learning Free
+                                Học Thử Miễn Phí
                             </AnimatedButton>
                             <AnimatedButton v-else :as="Link" :href="route('lessons.show', ['nhap-mon-php', 'php-la-gi'])" variant="primary" size="lg" class="shadow-lg shadow-primary/20">
-                                Continue Learning
+                                Tiếp tục học
                             </AnimatedButton>
                             <AnimatedButton :as="Link" :href="route('courses.index')" variant="outline" size="lg">
                                 <BookOpen class="h-5 w-5" />
-                                Browse Courses
+                                Xem Khóa học
                             </AnimatedButton>
                         </div>
 
@@ -171,16 +170,16 @@ const faqs = [
                             <div>
                                 <div class="text-3xl font-bold gradient-primary bg-clip-text text-transparent">10K+
                                 </div>
-                                <div class="text-sm text-muted-foreground font-medium">Students</div>
+                                <div class="text-sm text-muted-foreground font-medium">Học viên</div>
                             </div>
                             <div>
                                 <div class="text-3xl font-bold gradient-secondary bg-clip-text text-transparent">50+
                                 </div>
-                                <div class="text-sm text-muted-foreground font-medium">Courses</div>
+                                <div class="text-sm text-muted-foreground font-medium">Khóa học</div>
                             </div>
                             <div>
                                 <div class="text-3xl font-bold gradient-full bg-clip-text text-transparent">4.9/5</div>
-                                <div class="text-sm text-muted-foreground font-medium">Rating</div>
+                                <div class="text-sm text-muted-foreground font-medium">Đánh giá</div>
                             </div>
                         </div>
                     </div>
@@ -197,16 +196,16 @@ const faqs = [
                                                 <Code2 class="h-7 w-7 text-white" />
                                             </div>
                                             <div>
-                                                <div class="font-bold text-lg">Laravel Fundamentals</div>
-                                                <div class="text-sm text-muted-foreground">12 lessons • 8h 30m</div>
+                                                <div class="font-bold text-lg">Laravel Cơ bản</div>
+                                                <div class="text-sm text-muted-foreground">12 bài • 8h 30m</div>
                                             </div>
                                          </div>
-                                         <div class="px-3 py-1 rounded-full bg-green-500/10 text-green-500 text-xs font-bold uppercase tracking-wider">Active</div>
+                                         <div class="px-3 py-1 rounded-full bg-green-500/10 text-green-500 text-xs font-bold uppercase tracking-wider">Đang học</div>
                                     </div>
                                     
                                     <div class="space-y-2">
                                         <div class="flex justify-between text-sm font-medium">
-                                            <span>Progress</span>
+                                            <span>Tiến độ</span>
                                             <span>65%</span>
                                         </div>
                                         <div class="h-3 bg-muted rounded-full overflow-hidden">
@@ -217,7 +216,7 @@ const faqs = [
                                     </div>
                                     
                                     <div class="pt-4 border-t border-border/50 flex items-center justify-between text-sm">
-                                        <span class="text-muted-foreground">Next Lesson: </span>
+                                        <span class="text-muted-foreground">Bài tiếp theo: </span>
                                         <span class="font-semibold text-primary">Routing & Controllers</span>
                                     </div>
                                 </div>
@@ -239,9 +238,9 @@ const faqs = [
         <section class="py-24 bg-muted/30 relative">
             <div class="mx-auto max-w-7xl px-6">
                 <div class="text-center mb-16 space-y-4">
-                    <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">Why Choose LearnHub?</h2>
+                    <h2 class="text-3xl font-bold tracking-tight sm:text-4xl">Tại sao chọn LearnHub?</h2>
                     <p class="text-lg text-muted-foreground max-w-2xl mx-auto">
-                        Everything you need to become a proficient web developer, all in one place.
+                        Mọi thứ bạn cần để trở thành lập trình viên web chuyên nghiệp, tất cả ở một nơi.
                     </p>
                 </div>
 
@@ -264,11 +263,11 @@ const faqs = [
             <div class="mx-auto max-w-7xl px-6">
                 <div class="flex items-center justify-between mb-12">
                      <div class="space-y-1">
-                        <h2 class="text-3xl font-bold tracking-tight">Featured Courses</h2>
-                        <p class="text-muted-foreground">Start with our most popular learning paths.</p>
+                        <h2 class="text-3xl font-bold tracking-tight">Khóa học Nổi bật</h2>
+                        <p class="text-muted-foreground">Bắt đầu với các lộ trình học phổ biến nhất của chúng tôi.</p>
                      </div>
                      <Link :href="route('courses.index')" class="text-primary hover:text-primary/80 font-medium flex items-center gap-1 group">
-                        View All <ArrowRight class="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                        Xem Tất cả <ArrowRight class="h-4 w-4 transition-transform group-hover:translate-x-1" />
                      </Link>
                 </div>
 
@@ -292,7 +291,7 @@ const faqs = [
                                     <span class="font-bold text-foreground">4.8</span>
                                     <span class="text-muted-foreground">(120)</span>
                                 </div>
-                                <span class="font-bold text-primary">Start Learning</span>
+                                <span class="font-bold text-primary">Bắt đầu học</span>
                             </div>
                         </div>
                         
@@ -307,8 +306,8 @@ const faqs = [
         <section class="py-24 bg-muted/30">
             <div class="mx-auto max-w-7xl px-6">
                 <div class="text-center mb-16">
-                    <h2 class="text-3xl font-bold tracking-tight mb-4">What Our Students Say</h2>
-                    <p class="text-lg text-muted-foreground">Join thousands of satisfied developers.</p>
+                    <h2 class="text-3xl font-bold tracking-tight mb-4">Học viên nói gì về chúng tôi</h2>
+                    <p class="text-lg text-muted-foreground">Gia nhập cộng đồng hàng ngàn lập trình viên hài lòng.</p>
                 </div>
 
                 <div class="grid gap-8 md:grid-cols-3">
@@ -342,7 +341,7 @@ const faqs = [
         <section class="py-24">
             <div class="mx-auto max-w-3xl px-6">
                  <div class="text-center mb-12">
-                    <h2 class="text-3xl font-bold tracking-tight mb-4">Frequently Asked Questions</h2>
+                    <h2 class="text-3xl font-bold tracking-tight mb-4">Câu hỏi Thường gặp</h2>
                 </div>
 
                 <div class="space-y-4">
@@ -362,24 +361,24 @@ const faqs = [
             <div class="mx-auto max-w-5xl">
                 <GradientCard variant="full" class="text-center text-white p-12 lg:p-20 relative overflow-hidden">
                     <div class="relative z-10 space-y-8">
-                        <h2 class="text-4xl font-bold tracking-tight lg:text-5xl">Ready to Level Up?</h2>
+                        <h2 class="text-4xl font-bold tracking-tight lg:text-5xl">Sẵn sàng Nâng trình?</h2>
                         <p class="text-lg text-white/90 max-w-2xl mx-auto leading-relaxed">
-                            Join the community of developers mastering their craft with LearnHub. 
-                            Start your free trial today and unlock unlimited potential.
+                            Tham gia cộng đồng lập trình viên đang làm chủ kỹ năng với LearnHub. 
+                            Bắt đầu học thử ngay hôm nay và khai phá tiềm năng vô hạn.
                         </p>
                         <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
                             <AnimatedButton v-if="!$page.props.auth.user" :as="Link" :href="register()" variant="outline"
                                 size="lg" class="bg-white text-primary hover:bg-white/90 border-white min-w-[200px]">
                                 <Rocket class="h-5 w-5" />
-                                Get Started Now
+                                Bắt đầu Ngay
                             </AnimatedButton>
                             <AnimatedButton v-else :as="Link" :href="route('lessons.show', ['nhap-mon-php', 'php-la-gi'])" variant="outline" size="lg"
                                 class="bg-white text-primary hover:bg-white/90 border-white min-w-[200px]">
-                                Continue Learning
+                                Tiếp tục học
                             </AnimatedButton>
-                            <span class="text-sm text-white/70 block sm:hidden">No credit card required</span>
+                            <span class="text-sm text-white/70 block sm:hidden">Không cần thẻ tín dụng</span>
                         </div>
-                        <p class="text-sm text-white/60 hidden sm:block">No credit card required • Cancel anytime</p>
+                        <p class="text-sm text-white/60 hidden sm:block">Không cần thẻ tín dụng • Hủy bất cứ lúc nào</p>
                     </div>
                     
                     <!-- Background Decor -->
@@ -401,29 +400,29 @@ const faqs = [
                             <span class="font-bold text-xl">LearnHub</span>
                         </div>
                         <p class="text-muted-foreground max-w-xs">
-                            Empowering developers to build the future with modern tools and expert guidance.
+                            Trao quyền cho lập trình viên xây dựng tương lai với các công cụ hiện đại và sự hướng dẫn chuyên sâu.
                         </p>
                     </div>
                     <div>
-                        <h4 class="font-semibold mb-4">Platform</h4>
+                        <h4 class="font-semibold mb-4">Nền tảng</h4>
                         <ul class="space-y-2 text-sm text-muted-foreground">
-                            <li><Link :href="route('courses.index')" class="hover:text-primary">Courses</Link></li>
-                            <li><a href="#" class="hover:text-primary">Mentorship</a></li>
-                            <li><a href="#" class="hover:text-primary">Pricing</a></li>
+                            <li><Link :href="route('courses.index')" class="hover:text-primary">Khóa học</Link></li>
+                            <li><a href="#" class="hover:text-primary">Cố vấn</a></li>
+                            <li><a href="#" class="hover:text-primary">Bảng giá</a></li>
                         </ul>
                     </div>
                     <div>
-                        <h4 class="font-semibold mb-4">Company</h4>
+                        <h4 class="font-semibold mb-4">Công ty</h4>
                         <ul class="space-y-2 text-sm text-muted-foreground">
-                            <li><a href="#" class="hover:text-primary">About Us</a></li>
-                            <li><a href="#" class="hover:text-primary">Careers</a></li>
+                            <li><a href="#" class="hover:text-primary">Về chúng tôi</a></li>
+                            <li><a href="#" class="hover:text-primary">Tuyển dụng</a></li>
                             <li><a href="#" class="hover:text-primary">Blog</a></li>
                         </ul>
                     </div>
                 </div>
                 <div class="border-t border-border pt-8 flex flex-col md:flex-row items-center justify-between gap-4">
                     <div class="text-sm text-muted-foreground">
-                        © 2026 LearnHub. All rights reserved.
+                        © 2026 LearnHub. Bảo lưu mọi quyền.
                     </div>
                     <div class="flex gap-6">
                          <a href="#" class="text-muted-foreground hover:text-primary"><span class="sr-only">Twitter</span><svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84" /></svg></a>
