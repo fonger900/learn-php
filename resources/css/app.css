@@ -211,15 +211,15 @@
 
     /* Gradient utilities */
     .gradient-primary {
-        background: linear-gradient(135deg, var(--gradient-from), var(--gradient-via));
+        background-image: linear-gradient(135deg, var(--gradient-from), var(--gradient-via));
     }
 
     .gradient-secondary {
-        background: linear-gradient(135deg, var(--gradient-via), var(--gradient-to));
+        background-image: linear-gradient(135deg, var(--gradient-via), var(--gradient-to));
     }
 
     .gradient-full {
-        background: linear-gradient(135deg, var(--gradient-from), var(--gradient-via), var(--gradient-to));
+        background-image: linear-gradient(135deg, var(--gradient-from), var(--gradient-via), var(--gradient-to));
     }
 
     .gradient-border {
@@ -268,6 +268,7 @@
     from {
         height: 0;
     }
+
     to {
         height: var(--reka-collapsible-content-height);
     }
@@ -277,6 +278,7 @@
     from {
         height: var(--reka-collapsible-content-height);
     }
+
     to {
         height: 0;
     }
