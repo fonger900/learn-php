@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Head, Link } from '@inertiajs/vue3';
-import { BookOpen, Code2, GraduationCap, Rocket, Sparkles, Trophy, Zap, Star, CheckCircle, ArrowRight } from 'lucide-vue-next';
+import { BookOpen, Code2, Rocket, Sparkles, Trophy, Zap, Star, CheckCircle, ArrowRight } from 'lucide-vue-next';
 import Logo from '@/components/Logo.vue';
 import AnimatedButton from '@/components/ui/AnimatedButton.vue';
 import GradientCard from '@/components/ui/GradientCard.vue';
@@ -305,7 +305,7 @@ const faqs = [
                                 {{
                                     course.title }}</h3>
                             <p class="text-muted-foreground text-sm line-clamp-2 mb-6 flex-grow">{{ course.description
-                                }}</p>
+                            }}</p>
 
                             <div class="mt-auto pt-4 border-t border-border/50 flex items-center justify-between">
                                 <div class="flex items-center gap-1 text-sm text-yellow-500">
